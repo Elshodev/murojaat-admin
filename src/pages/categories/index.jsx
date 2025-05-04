@@ -8,7 +8,7 @@ export default function Admin() {
     <Routes>
       <Route index element={<Categories />} />
       <Route path="/addCategory" element={<AddCategory />} />
-      <Route path="/categoryInfo/:id" element={<CategorySinglePage />} />
+      <Route path="/:id" element={<CategorySinglePage />} />
     </Routes>
   );
 }

@@ -1,8 +1,8 @@
-import { formatDate } from "../../../utils/dateFormatter.js";
+import MoreLink from "@/components/MoreLink.jsx";
 import RenderCell from "@/components/tables/RenderCell.jsx";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber .js";
 
-function UserTbody({ datas, className }) {
+function OperatorsTbody({ datas, className }) {
   return (
     <div className="flex flex-col overflow-auto grow">
       {datas.map((item, index) => (
@@ -14,16 +14,16 @@ function UserTbody({ datas, className }) {
           <RenderCell value={item.fullName} />
           <span>{formatPhoneNumber(item?.phone)}</span>
           <RenderCell value={item.region} />
-          <span>{formatDate(item?.createdAt)}</span>
-          <div className="grid grid-cols-4 w-full place-items-center">
-            <RenderCell value={item.appeals.sent} />
+          <RenderCell value={item.category} />
+          <div className="grid grid-cols-3 w-full place-items-center">
+            <RenderCell value={item.appeals.new} />
             <RenderCell value={item.appeals.inProgress} />
             <RenderCell value={item.appeals.answered} />
-            <RenderCell value={item.appeals.total} />
           </div>
+          <MoreLink link={`${item.id}`} />
         </div>
       ))}
     </div>
   );
 }
-export default UserTbody;
+export default OperatorsTbody;

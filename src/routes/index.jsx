@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout.jsx";
 import adminRoutes from "./adminRoutes.jsx";
 import Login from "../pages/login/index.jsx";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { fetchUserData } from "@/utils/auth.js";
 import NoConnection from "@/components/noConnection/NoConnection.jsx";
 import PageLoader from "@/components/loader/PageLoader.jsx";
@@ -29,22 +29,24 @@ function AppRoutes() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<AdminLayout />}>
-        {adminRoutes
-          .filter((item) => item.allowRole.includes(user?.role.roleId))
-          .map(({ path, element, children }) => (
-            <Route key={path} path={path} element={element}>
-              {children &&
-                children.map(({ path, element }) => (
-                  <Route key={path} path={path} element={element} />
-                ))}
-            </Route>
-          ))}
-      </Route>
-      <Route path="/login" element={<Login />} />
-      <Route path="*" element={<h1>Not Found</h1>} />
-    </Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<AdminLayout />}>
+          {adminRoutes
+            .filter((item) => item.allowRole.includes(user?.role.roleId))
+            .map(({ path, element, children }) => (
+              <Route key={path} path={path} element={element}>
+                {children &&
+                  children.map(({ path, element }) => (
+                    <Route key={path} path={path} element={element} />
+                  ))}
+              </Route>
+            ))}
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
+      </Routes>
+    </Suspense>
   );
 }
 

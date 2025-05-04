@@ -7,7 +7,7 @@ const roleColors = {
 };
 
 const RenderCell = ({ value, id }) => {
-  const isEmpty = !value;
+  const isEmpty = value === null || value === undefined || value === "";
   const color = roleColors[id] || "text-main-blackish";
 
   return (

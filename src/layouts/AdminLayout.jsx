@@ -32,7 +32,7 @@ const AdminLayout = () => {
   return (
     <div className="flex h-screen w-full bg-[#F8F8F8]">
       <Sidebar />
-      <div className="relative w-full overflow-hidden flex flex-col pt-[80px] h-screen lg:pt-0">
+      <div className="relative w-full overflow-hidden flex flex-col h-screen">
         <Outlet />
       </div>
     </div>

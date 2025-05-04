@@ -22,32 +22,35 @@ function Login() {
       id="login"
       className="flex items-center justify-center h-screen bg-[#E9ECEF]"
     >
-      <div className="flex flex-col items-center">
-        <img className="max-w-[146px] mb-2" src={logo} alt="" />
-        <h1 className="text-[20px] font-bold mb-4 text-center text-[#4c4d4d]">
-          Poster Admin Panel
-          <br /> Мы рады видеть вас снова!
+      <div className="flex flex-col items-center bg-white p-6 rounded">
+        <img className="max-w-[110px] mb-2" src={logo} alt="" />
+        <h1 className="text-[26px] font-bold mb-4 text-center text-[#4c4d4d]">
+          Tizimga kirish
         </h1>
         <form
           onSubmit={(e) =>
             handleLogin(e, formData, navigate, setIsLoading, setIsError)
           }
-          className="min-w-[390px]"
+          className="min-w-[500px]"
         >
           <CustomInput
+            label={"Tizimga kirish"}
             onChange={(e) => handleChange(e, setFormData)}
             className="bg-white"
-            placeholder="Логин"
+            placeholder="Tizimga kirish"
             name={"login"}
+            divClass="!px-0"
             autoComplete="username"
             value={formData?.login || ""}
           />
           <CustomInput
+            label={"Parol"}
             onChange={(e) => handleChange(e, setFormData)}
             className="bg-white"
             type={showPassword ? "text" : "password"}
-            placeholder="Пароль"
+            placeholder="Parol"
             name={"password"}
+            divClass="mt-4 !px-0"
             value={formData?.password || ""}
             onClick={() => setShowPassword(!showPassword)}
             Icon={
@@ -66,6 +69,9 @@ function Login() {
             Войти
           </UniversalBtn>
         </form>
+        <h2 className="mt-4 text-main-blackish font-semibold">
+          IIV JXD YHXX ATRB Dasturiy ta'minot markazi
+        </h2>
       </div>
     </div>
   );

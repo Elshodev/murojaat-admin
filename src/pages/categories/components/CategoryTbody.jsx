@@ -6,10 +6,11 @@ function CategoryTbody({ datas, className }) {
       {datas.map((item, index) => (
         <div
           key={index}
-          className={`grid w-full min-h-[36px] shrink-0 mt-1 rounded py-1 bg-white items-center gap-4 text-sm text-main-blackish font-medium ${className}`}
+          className={`grid w-full text-center min-h-[36px] shrink-0 mt-1 rounded py-1 bg-white items-center text-sm text-main-blackish font-medium ${className}`}
         >
+          <span>{index + 1}</span>
           <span>{item.name}</span>
-          <MoreLink link={`categoryInfo/${item.id}`} />
+          <MoreLink link={`${item.id}`} />
         </div>
       ))}
     </div>

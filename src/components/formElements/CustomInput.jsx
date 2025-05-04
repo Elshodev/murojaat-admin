@@ -21,7 +21,7 @@ function CustomInput({
   ...rest
 }) {
   return (
-    <div className={`flex flex-col gap-2 grow ${divClass}`}>
+    <div className={`flex flex-col gap-1 grow ${divClass}`}>
       {label && <CustomLabel labelText={label} />}
       <div
         className={`border w-full relative pr-5 outline-none border-[rgb(116,120,141,0.35)] bg-[#F8F8F8] rounded text-sm ${
@@ -33,7 +33,7 @@ function CustomInput({
           `}
       >
         <input
-          className="w-full px-2 min-h-[38px] bg-transparent"
+          className="w-full px-2 min-h-[36px] bg-transparent"
           name={name}
           type={type}
           placeholder={placeholder}

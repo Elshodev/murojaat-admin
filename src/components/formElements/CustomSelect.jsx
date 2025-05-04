@@ -38,7 +38,7 @@ const CustomSelect = ({
         }}
       >
         <SelectTrigger
-          className={`${className} !text-main-black w-full cursor-pointer text-sm pr-2 !ring-0 border-[rgb(116,120,141,0.35)] bg-[#F8F8F8] shadow-none ${
+          className={`${className} !text-main-black w-full min-h-[37px] cursor-pointer text-sm pr-2 !ring-0 border-[rgb(116,120,141,0.35)] bg-[#F8F8F8] shadow-none ${
             required && isError ? "!border-red-500" : ""
           }  ${
             editable

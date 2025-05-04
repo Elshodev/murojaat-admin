@@ -1,15 +1,19 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Plus } from "lucide-react";
+
+import UniversalBtn from "@/components/buttons/UniversalBtn.jsx";
 import EmptyText from "@/components/EmptyText/EmptyText.jsx";
 import PageHeader from "@/components/header/PageHeader.jsx";
 import PageLoader from "@/components/loader/PageLoader.jsx";
 import UniversalTable from "@/components/tables/UniversalTables.jsx";
-import { usersGridHeaderConfig } from "@/constants/tableHeadNames.js";
 import { useRequest } from "@/hooks/useRequest.js";
 import { size } from "@/constants/paginationStuffs.js";
-import UserTbody from "./components/UserTbody.jsx";
-import GridTableHeader from "./components/GridTableHeader.jsx";
+import OperatorsTbody from "./components/OperatorsTbody.jsx";
+import GridTableHeader from "../users/components/GridTableHeader.jsx";
+import { operatorsGridHeaderConfig } from "@/constants/tableHeadNames.js";
 
-function Users() {
+function Operators() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
@@ -26,12 +30,12 @@ function Users() {
         fullName: "Elshod Jurabekov Dilshod o'g'li",
         phone: "998333322229",
         region: "Jizzax viloyati",
+        category: "",
         createdAt: "2025-04-01T08:29:33.429Z",
         appeals: {
-          sent: 3,
+          new: 3,
           inProgress: 2,
           answered: 4,
-          total: 9,
         },
       },
       {
@@ -39,12 +43,12 @@ function Users() {
         fullName: "Elshod Jurabekov Dilshod o'g'li",
         phone: "998955056969",
         region: "Jizzax viloyati",
+        category: "",
         createdAt: "2025-04-01T08:29:33.429Z",
         appeals: {
-          sent: 2,
+          new: 2,
           inProgress: 2,
           answered: 2,
-          total: 6,
         },
       },
     ],
@@ -57,26 +61,26 @@ function Users() {
   return (
     <>
       <PageHeader
-        title="Foydalanuvchilar"
-        breadcrumbs={[
-          { label: "Admin", link: "/" },
-          { label: "Foydalanuvchilar" },
-        ]}
-      />
+        title="Operatorlar"
+        breadcrumbs={[{ label: "Admin", link: "/" }, { label: "Operatorlar" }]}
+      >
+        <UniversalBtn
+          onClick={() => navigate(`addOperator`)}
+          iconPosition="left"
+          icon={Plus}
+        >
+          Foydalanuvchi qo'shish
+        </UniversalBtn>
+      </PageHeader>
 
       <div className="px-[20px] grow h-full overflow-hidden flex flex-col py-5">
         {users?.totalItems === 0 && searchParams.toString() === "" ? (
-          <EmptyText text="Foydalanuvchilar hali yo'q!" />
+          <EmptyText text="Operatorlar hali yo'q!" />
         ) : (
           <UniversalTable datas={users}>
-            <GridTableHeader config={usersGridHeaderConfig} />
-            {/* <UserFilter
-              searchParams={searchParams}
-              currentPage={currentPage}
-              setSearchParams={setSearchParams}
-            /> */}
-            <UserTbody
-              className="grid-cols-[50px_1fr_1fr_1fr_1fr_2fr] place-items-center"
+            <GridTableHeader config={operatorsGridHeaderConfig} />
+            <OperatorsTbody
+              className="grid-cols-[50px_1fr_1fr_1fr_1fr_2fr_1fr] place-items-center"
               datas={users?.data}
             />
           </UniversalTable>
@@ -86,4 +90,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Operators;

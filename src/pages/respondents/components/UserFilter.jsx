@@ -4,7 +4,6 @@ import UniversalBtn from "@/components/buttons/UniversalBtn.jsx";
 import { useEffect, useState } from "react";
 import useInitDataStore from "@/store/initDataStore.js";
 import { size } from "@/constants/paginationStuffs.js";
-import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
 
 const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
   const { roles } = useInitDataStore();
@@ -53,22 +52,22 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid-cols-[50px_1fr_1fr_1fr_1fr_2fr] shrink-0 grid w-full min-h-[36px] mt-1 gap-[2px] rounded py-1 bg-white items-center text-sm font-medium"
+      className="grid-cols-[1fr_1fr_.5fr_1fr_1.5fr_1fr_auto] shrink-0 px-4 grid w-full min-h-[36px] mt-1 rounded py-1 bg-white items-center gap-4 text-sm font-medium"
     >
-      <div></div>
       <CustomInput
         onChange={handleChange}
-        placeholder="F.I.O"
+        placeholder="Имя"
+        name="name"
+        className="bg-white !border-main-blue"
+        value={filterData.name}
+        required={false}
+      />
+      <CustomInput
+        onChange={handleChange}
+        placeholder="Войти"
         name="login"
         className="bg-white !border-main-blue"
         value={filterData.login}
-        required={false}
-      />
-      <MaskedPhoneInput
-        value={filterData?.phone ?? ""}
-        onChange={handleChange}
-        name={"phone"}
-        className="bg-white !border-main-blue"
         required={false}
       />
       <CustomSelect
@@ -76,8 +75,24 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
         value={filterData.role}
         onChange={(e) => handleSelectChange(e.target.value)}
         options={roles}
-        placeholder="Viloyat tanlang"
+        placeholder="Выберите роль"
         className="!bg-white !border-main-blue rounded"
+        required={false}
+      />
+      <CustomInput
+        onChange={handleChange}
+        placeholder="Компания"
+        name="company"
+        className="bg-white !border-main-blue"
+        value={filterData.company}
+        required={false}
+      />
+      <CustomInput
+        onChange={handleChange}
+        placeholder="Филиал"
+        name="branch"
+        className="bg-white !border-main-blue"
+        value={filterData.branch}
         required={false}
       />
       <div></div>
