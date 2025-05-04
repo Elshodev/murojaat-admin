@@ -15,24 +15,20 @@ const useInitDataStore = create((set) => ({
     }
 
     set({ isLoading: true, error: null });
-    if (casheRole == 1) {
+    if (casheRole == roles.ADMIN) {
       set({
         roles: [
           {
-            id: 1,
-            name: "Супер админ",
+            id: "ADMIN",
+            name: "Administrator",
           },
           {
-            id: 6,
-            name: "Админ менеджер",
+            id: "OPERATOR",
+            name: "Operator",
           },
           {
-            id: 2,
-            name: "Менеджер",
-          },
-          {
-            id: 5,
-            name: "Кассир",
+            id: "EMPLOYEE",
+            name: "Arizaga javob beruvchi xodim",
           },
         ],
       });

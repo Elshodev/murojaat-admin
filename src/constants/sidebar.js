@@ -22,19 +22,13 @@ const adminMenu = [
   {
     path: "/users",
     Icon: UsersRound,
-    label: "Foydalanuvchilar",
+    label: "Murojaatchilar",
     allowRole: ["ADMIN"],
   },
   {
     path: "/operators",
     Icon: UserCog,
-    label: "Operatorlar",
-    allowRole: ["ADMIN"],
-  },
-  {
-    path: "/respondents",
-    Icon: UserPen,
-    label: "Arizaga javob beruvchilar",
+    label: "Xodimlar",
     allowRole: ["ADMIN"],
   },
   {

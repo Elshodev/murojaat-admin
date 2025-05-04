@@ -1,8 +1,22 @@
 import MoreLink from "@/components/MoreLink.jsx";
 import RenderCell from "@/components/tables/RenderCell.jsx";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber .js";
+// import { formatPhoneNumber } from "@/utils/formatPhoneNumber .js";
 
+const translateRole = (role) => {
+  switch (role) {
+    case "ADMIN":
+      return "Administrator";
+    case "EMPLOYEE":
+      return "Arizaga javob beruvchi xodim";
+    case "OPERATOR":
+      return "Operator";
+    default:
+      return role;
+  }
+};
 function OperatorsTbody({ datas, className }) {
+  console.log(datas);
+
   return (
     <div className="flex flex-col overflow-auto grow">
       {datas.map((item, index) => (
@@ -12,7 +26,8 @@ function OperatorsTbody({ datas, className }) {
         >
           <RenderCell value={index + 1} />
           <RenderCell value={item.fullName} />
-          <span>{formatPhoneNumber(item?.phone)}</span>
+          <RenderCell value={translateRole(item.role)} />
+          {/* <span>{formatPhoneNumber(item?.phone)}</span> */}
           <RenderCell value={item.region} />
           <RenderCell value={item.deportament} />
           <div className="grid grid-cols-3 w-full place-items-center">

@@ -10,6 +10,7 @@ const MaskedPhoneInput = ({
   className,
   required,
   divClassname,
+  editable = true,
 }) => {
   const inputRef = useMask({
     mask: "+998 __ ___ __ __",
@@ -28,8 +29,8 @@ const MaskedPhoneInput = ({
         value={value}
         required={required}
         onChange={onChange}
-        className={`border w-full outline-none px-4 min-h-[37px]  border-[rgb(116,120,141,0.35)] rounded text-sm 
-          ${className}
+        className={`border w-full outline-none px-4 min-h-[37px] border-[rgb(116,120,141,0.35)] bg-[#F8F8F8] rounded text-sm 
+          ${className} ${editable ? "border-[#c3c3c3]" : "border-transparent"}
           `}
       />
     </div>

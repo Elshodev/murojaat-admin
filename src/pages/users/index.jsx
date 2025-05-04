@@ -17,11 +17,10 @@ function Users() {
     data: users,
     isLoading,
     error,
-  } = useRequest(`/operator/users${searchParams.toString()}`);
+  } = useRequest(`/operator/users?${searchParams.toString()}`);
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
-  console.log(users);
   return (
     <>
       <PageHeader

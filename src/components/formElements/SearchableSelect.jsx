@@ -13,6 +13,7 @@ function SearchableSelect({
   required = false,
   onChange = () => {},
   editable = false,
+  className = "border !border-main-blue ",
 }) {
   const fetchOptions = async (inputValue) => {
     try {
@@ -60,7 +61,7 @@ function SearchableSelect({
         cacheOptions
         classNames={{
           control: ({ isFocused }) =>
-            `border !border-main-blue !min-h-[36px] !shadow-none whitespace-nowrap`,
+            `!min-h-[38px] !shadow-none whitespace-nowrap ${className}`,
         }}
         placeholder={placeholder}
         loadOptions={loadOptions}

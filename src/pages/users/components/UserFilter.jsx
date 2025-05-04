@@ -1,29 +1,23 @@
 import CustomInput from "@/components/formElements/CustomInput.jsx";
-import CustomSelect from "@/components/formElements/CustomSelect.jsx";
 import UniversalBtn from "@/components/buttons/UniversalBtn.jsx";
 import { useEffect, useState } from "react";
 import useInitDataStore from "@/store/initDataStore.js";
-import { size } from "@/constants/paginationStuffs.js";
 import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
 import { Search } from "lucide-react";
+import SearchableSelect from "@/components/formElements/SearchableSelect";
 
 const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
-  const { roles } = useInitDataStore();
+  const { regions } = useInitDataStore();
+
   const [filterData, setFilterData] = useState({
-    name: searchParams.get("name") || "",
-    login: searchParams.get("login") || "",
-    role: searchParams.get("roleId") || "",
-    company: searchParams.get("company") || "",
-    branch: searchParams.get("branch") || "",
+    fullname: searchParams.get("fullname") || "",
+    regionId: searchParams.get("regionId") || "",
   });
 
   useEffect(() => {
     setFilterData({
-      name: searchParams.get("name") || "",
-      login: searchParams.get("login") || "",
-      role: searchParams.get("roleId") || "",
-      company: searchParams.get("company") || "",
-      branch: searchParams.get("branch") || "",
+      fullname: searchParams.get("fullname") || "",
+      regionId: searchParams.get("regionId") || "",
     });
   }, [searchParams]);
   const handleChange = (e) => {
@@ -31,23 +25,13 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
     setFilterData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (value) => {
-    setFilterData((prev) => ({ ...prev, role: value }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const params = new URLSearchParams();
-    params.set("page", currentPage);
-    params.set("size", size);
-
-    if (filterData.name) params.set("name", filterData.name);
-    if (filterData.login) params.set("login", filterData.login);
-    if (filterData.role) params.set("roleId", filterData.role);
-    if (filterData.company) params.set("company", filterData.company);
-    if (filterData.branch) params.set("branch", filterData.branch);
-
+    if (currentPage > 1) params.set("page", currentPage);
+    if (filterData.fullname) params.set("fullname", filterData.fullname);
+    if (filterData.regionId) params.set("regionId", filterData.regionId);
     setSearchParams(params);
   };
 
@@ -62,10 +46,11 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
       <CustomInput
         onChange={handleChange}
         placeholder="F.I.O"
-        name="login"
+        name="fullname"
         className="bg-white !border-main-blue"
-        value={filterData.login}
+        value={filterData.fullname}
         required={false}
+        type="search"
       />
       <MaskedPhoneInput
         value={filterData?.phone ?? ""}
@@ -74,14 +59,18 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
         className="bg-white !border-main-blue"
         required={false}
       />
-      <CustomSelect
-        name="role"
-        value={filterData.role}
-        onChange={(e) => handleSelectChange(e.target.value)}
-        options={roles}
+      <SearchableSelect
         placeholder="Viloyat tanlang"
-        className="!bg-white !border-main-blue rounded"
-        required={false}
+        endpoint="/regions"
+        queryParam="name"
+        value={filterData?.regionId}
+        defaultOptions={regions ?? []}
+        onChange={(selected) => {
+          setFilterData((prev) => ({
+            ...prev,
+            regionId: selected?.value || "",
+          }));
+        }}
       />
       <div></div>
       <UniversalBtn className="self-end justify-center" type="submit">

@@ -1,26 +1,23 @@
 import CustomInput from "@/components/formElements/CustomInput.jsx";
-import CustomSelect from "@/components/formElements/CustomSelect.jsx";
 import UniversalBtn from "@/components/buttons/UniversalBtn.jsx";
 import { useEffect, useState } from "react";
 import useInitDataStore from "@/store/initDataStore.js";
 import { Search } from "lucide-react";
-import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
 import SearchableSelect from "@/components/formElements/SearchableSelect";
 
 const OperatorFilter = ({ searchParams, currentPage, setSearchParams }) => {
-  const { regions, categories } = useInitDataStore();
+  const { regions, roles, categories } = useInitDataStore();
   const [filterData, setFilterData] = useState({
     name: searchParams.get("name") || "",
-    phone: searchParams.get("phone") || "",
+    role: searchParams.get("role") || "",
     deportament_id: searchParams.get("deportament_id") || "",
     region_id: searchParams.get("region_id") || "",
   });
-  console.log(filterData);
 
   useEffect(() => {
     setFilterData({
       name: searchParams.get("name") || "",
-      phone: searchParams.get("phone") || "",
+      role: searchParams.get("role") || "",
       region_id: searchParams.get("region_id") || "",
       deportament_id: searchParams.get("deportament_id") || "",
     });
@@ -36,7 +33,12 @@ const OperatorFilter = ({ searchParams, currentPage, setSearchParams }) => {
     const params = new URLSearchParams();
     if (currentPage > 1) params.set("page", currentPage);
     if (filterData.name) params.set("name", filterData.name);
-    if (filterData.phone) params.set("phone", filterData.phone);
+    if (filterData.role) params.set("role", filterData.role);
+    // if (filterData.phone) {
+    //   const cleanedPhoneNumber =
+    //     filterData.phone?.replace(/\D/g, "").replace(/^998/, "") || "";
+    //   params.set("phone", cleanedPhoneNumber);
+    // }
     if (filterData.deportament_id)
       params.set("deportament_id", filterData.deportament_id);
     if (filterData.region_id) params.set("region_id", filterData.region_id);
@@ -53,6 +55,7 @@ const OperatorFilter = ({ searchParams, currentPage, setSearchParams }) => {
         <Search className="text-main-blackish" />
       </div>
       <CustomInput
+        type="search"
         onChange={handleChange}
         placeholder="F.I.O"
         name="name"
@@ -60,12 +63,24 @@ const OperatorFilter = ({ searchParams, currentPage, setSearchParams }) => {
         value={filterData.name}
         required={false}
       />
-      <MaskedPhoneInput
+      {/* <MaskedPhoneInput
         value={filterData?.phone ?? ""}
         onChange={handleChange}
         name={"phone"}
         className="bg-white !border-main-blue"
         required={false}
+      /> */}
+      <SearchableSelect
+        placeholder="Rolni tanlang"
+        queryParam="name"
+        value={filterData?.role}
+        defaultOptions={roles ?? []}
+        onChange={(selected) => {
+          setFilterData((prev) => ({
+            ...prev,
+            role: selected?.value || "",
+          }));
+        }}
       />
       <SearchableSelect
         placeholder="Viloyat tanlang"

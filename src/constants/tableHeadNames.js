@@ -33,9 +33,9 @@ export const operatorsGridHeaderConfig = {
   headers: [
     { label: "№", type: "cell" },
     { label: "F.I.O", type: "cell" },
-    { label: "Telefon raqami", type: "cell" },
+    { label: "Rol", type: "cell" },
     { label: "Viloyat", type: "cell" },
-    { label: "Bo'limi", type: "cell" },
+    { label: "Bo'lim", type: "cell" },
     {
       label: "Ko'rilayotgan arizalar",
       type: "group",
@@ -50,6 +50,14 @@ export const operatorsGridHeaderConfig = {
   ],
 };
 export const categoriesGridHeaderConfig = {
+  gridTemplate: "grid-cols-[50px_1fr_100px]",
+  headers: [
+    { label: "№", type: "cell" },
+    { label: "Bo'lim nomi", type: "cell" },
+    { label: "Harakatlar", type: "cell" },
+  ],
+};
+export const applicationGridHeaderConfig = {
   gridTemplate: "grid-cols-[50px_1fr_100px]",
   headers: [
     { label: "№", type: "cell" },

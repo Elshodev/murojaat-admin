@@ -21,7 +21,7 @@ function Operators() {
     data: users,
     isLoading,
     error,
-  } = useRequest(`/operator?role=OPERATOR&${searchParams.toString()}`);
+  } = useRequest(`/operator?${searchParams.toString()}`);
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
@@ -29,21 +29,21 @@ function Operators() {
   return (
     <>
       <PageHeader
-        title="Operatorlar"
-        breadcrumbs={[{ label: "Admin", link: "/" }, { label: "Operatorlar" }]}
+        title="Xodimlar"
+        breadcrumbs={[{ label: "Admin", link: "/" }, { label: "Xodimlar" }]}
       >
         <UniversalBtn
           onClick={() => navigate(`addOperator`)}
           iconPosition="left"
           icon={Plus}
         >
-          Foydalanuvchi qo'shish
+          Xodim qo'shish
         </UniversalBtn>
       </PageHeader>
 
       <div className="px-[20px] grow h-full overflow-hidden flex flex-col py-5">
         {users?.totalItems === 0 && searchParams.toString() === "" ? (
-          <EmptyText text="Operatorlar hali yo'q!" />
+          <EmptyText text="Xodimlar hali yo'q!" />
         ) : (
           <UniversalTable datas={users}>
             <GridTableHeader config={operatorsGridHeaderConfig} />

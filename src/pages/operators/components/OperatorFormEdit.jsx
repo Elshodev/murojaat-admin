@@ -7,18 +7,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UniversalDeleteModal from "@/components/PopUps/UniversalDeleteModal.jsx";
 import { useQueryClient } from "@tanstack/react-query";
-import roleBasedSelectVisibility from "@/utils/roleBasedSelectVisibility.js";
-import CustomSelect from "@/components/formElements/CustomSelect.jsx";
 import useInitDataStore from "@/store/initDataStore.js";
+import SearchableSelect from "@/components/formElements/SearchableSelect";
+import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
 
-function UsersFormEdit({ data }) {
-  const { branches, roles, fetchInitData } = useInitDataStore();
-  useEffect(() => {
-    fetchInitData();
-  }, []);
+function OperatorFormEdit({ data }) {
+  const { regions, roles, categories } = useInitDataStore();
+
   const navigate = useNavigate();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
   const [isOpenPassword, setIsOpenPassword] = useState(false);
   const [formData, setFormData] = useState({});
@@ -26,11 +23,11 @@ function UsersFormEdit({ data }) {
   const queryClient = useQueryClient();
   const handleSubmit = (e) => {
     e.preventDefault();
-    request(`/users/${data.id}`, "PUT", formData)
+    request(`/operator/${data.id}`, "PUT", formData)
       .then(() => {
-        showToast.success("Пользователь успешно обновлена!");
-        queryClient.invalidateQueries([`/users/${data.id}`]);
-        navigate(`/users`);
+        showToast.success("Operator muvaffaqiyatli yaratildi!");
+        queryClient.invalidateQueries([`/operator/${data.id}`]);
+        setIsOpenEdit(false);
       })
       .catch((error) => {
         console.error("Error editing user:", error);
@@ -39,10 +36,10 @@ function UsersFormEdit({ data }) {
   };
   const handleDelete = () => {
     setLoading(true);
-    request(`/users/${data.id}`, "DELETE")
+    request(`/operator/${data.id}`, "DELETE")
       .then(() => {
-        showToast.success("Пользователь успешно удалена!");
-        navigate(`/users`);
+        showToast.success("Operator muvaffaqiyatli o'chirildi!");
+        navigate(`/operators`);
       })
       .catch((err) => showToast.error(err.response.data.message))
       .finally(() => {
@@ -63,33 +60,30 @@ function UsersFormEdit({ data }) {
       <div className="grid lg:grid-cols-4 grid-cols-3 w-full gap-4">
         <CustomInput
           onChange={handleChange}
-          editable={isOpenEdit}
-          label="Имя"
-          placeholder="Имя"
-          name={"name"}
+          label="Ism"
+          placeholder="F.I.Sh"
+          name="full_name"
           required={false}
-          value={formData?.name ?? data?.name ?? ""}
+          editable={isOpenEdit}
+          value={formData?.full_name ?? data?.full_name ?? ""}
         />
         <CustomInput
           onChange={handleChange}
-          className=""
-          label="Войти"
-          editable={isOpenEdit}
-          placeholder="Войти"
-          name={"login"}
+          label="Login"
+          placeholder="Login"
+          name="username"
+          value={formData?.username ?? data?.username ?? ""}
           required={false}
-          value={formData?.login ?? data?.login ?? ""}
+          editable={isOpenEdit}
         />
         <CustomInput
           onChange={handleChange}
-          className=""
           type={isOpenPassword ? "text" : "password"}
-          label="Пароль"
-          editable={isOpenEdit}
-          placeholder="Пароль"
-          name={"password"}
+          label="Parol"
           required={false}
-          value={formData?.password ?? ""}
+          editable={isOpenEdit}
+          placeholder="Parol"
+          name="password"
           onClick={() => setIsOpenPassword((prev) => !prev)}
           Icon={
             isOpenPassword ? (
@@ -99,35 +93,61 @@ function UsersFormEdit({ data }) {
             )
           }
         />
-        <CustomSelect
-          name={"role"}
-          label={"Роль"}
-          setIsError={setIsError}
-          isError={isError}
-          value={formData?.role ?? data?.roleId ?? ""}
+        <MaskedPhoneInput
+          value={formData?.phone_number ?? ""}
           onChange={handleChange}
-          required
+          label={"Telefon raqam"}
           editable={isOpenEdit}
-          options={roles}
-          placeholder="Выберите роль"
-          className="border !text-[#929292] border-gray-300 rounded grow"
+          name={"phone_number"}
+          divClassname={"flex-col items-start"}
         />
-
-        {roleBasedSelectVisibility(formData?.role ?? data?.roleId) && (
-          <CustomSelect
-            name={"branchId"}
-            label={"Филиалы"}
-            setIsError={setIsError}
-            isError={isError}
-            value={formData?.branchId ?? data?.branchId ?? ""}
-            onChange={handleChange}
-            required
-            editable={isOpenEdit}
-            options={branches}
-            placeholder="Выберите филиал"
-            className="border !text-[#929292] border-gray-300 rounded grow"
-          />
-        )}
+        <SearchableSelect
+          placeholder="Viloyat tanlang"
+          labelText={"Viloyat"}
+          endpoint="/regions"
+          queryParam="name"
+          editable={!isOpenEdit}
+          value={formData?.region_id ?? data?.region?.id ?? ""}
+          defaultOptions={regions ?? []}
+          className=""
+          onChange={(selected) => {
+            setFormData((prev) => ({
+              ...prev,
+              region_id: selected?.value || null,
+            }));
+          }}
+        />
+        <SearchableSelect
+          placeholder="Bo‘limni tanlang"
+          labelText={"Bo'lim"}
+          endpoint="/departments"
+          queryParam="name"
+          className=""
+          editable={!isOpenEdit}
+          value={formData?.deportament_id ?? data?.deportament?.id ?? ""}
+          defaultOptions={categories ?? []}
+          onChange={(selected) => {
+            setFormData((prev) => ({
+              ...prev,
+              deportament_id: selected?.value || null,
+            }));
+          }}
+        />
+        <SearchableSelect
+          placeholder="Rolni tanlang"
+          labelText={"Rol"}
+          queryParam="name"
+          className=""
+          editable={!isOpenEdit}
+          value={formData?.role ?? data?.role ?? ""}
+          defaultOptions={roles ?? []}
+          onChange={(selected) => {
+            setFormData((prev) => ({
+              ...prev,
+              role: selected?.value || null,
+            }));
+          }}
+        />
       </div>
       <div className="flex gap-4 flex-wrap">
         {isOpenEdit ? (
@@ -176,4 +196,4 @@ function UsersFormEdit({ data }) {
   );
 }
 
-export default UsersFormEdit;
+export default OperatorFormEdit;

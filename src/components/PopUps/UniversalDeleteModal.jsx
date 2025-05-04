@@ -15,10 +15,10 @@ function UniversalDeleteModal({
       ></div>
       <div className="p-[60px] z-[1] bg-white max-w-[650px] rounded flex flex-col items-center shadow-[4px_8px_30px_0_rgba(0,0,0,20%)]">
         <h3 className="text-[30px] font-bold">Ma'lumotni o'chirish?</h3>
-        <p className="text-[20px] my-[15px]">
+        <p className="text-[20px] my-[15px] text-center">
           Haqiqatan ham{" "}
           <span className="font-bold">
-            {selectedData?.name ?? selectedData.terminalId ?? "данные"}
+            {selectedData?.name ?? selectedData?.full_name ?? "shu ma'lumot"}
           </span>{" "}
           ni oʻchirib tashlamoqchimisiz?{" "}
         </p>
