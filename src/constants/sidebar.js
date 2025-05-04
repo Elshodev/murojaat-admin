@@ -1,16 +1,17 @@
 import {
   Boxes,
   Building2,
+  ClipboardCheck,
+  ClipboardMinus,
   Grid2x2,
   LayoutDashboard,
   MapPinned,
-  Share2,
-  SquareTerminal,
+  NotebookTabs,
   UserCog,
   UserPen,
   UsersRound,
 } from "lucide-react";
-
+import { TbReport } from "react-icons/tb";
 const adminMenu = [
   {
     path: "/",
@@ -26,15 +27,15 @@ const adminMenu = [
   },
   {
     path: "/operators",
-    Icon: UserCog ,
+    Icon: UserCog,
     label: "Operatorlar",
     allowRole: [1],
   },
   {
     path: "/respondents",
-    Icon: UserPen ,
+    Icon: UserPen,
     label: "Arizaga javob beruvchilar",
-    allowRole: [1,],
+    allowRole: [1],
   },
   {
     path: "/categories",
@@ -47,6 +48,16 @@ const adminMenu = [
     Icon: MapPinned,
     label: "Viloyatlar",
     allowRole: [1],
+  },
+  {
+    Icon: NotebookTabs,
+    title: "Arizalar",
+    allowRole: [1],
+    children: [
+      { label: "Yangi", Icon: ClipboardMinus, path: "/appeals/new" },
+      { label: "Jarayonda", Icon: TbReport, path: "/appeals/inProgres" },
+      { label: "Tugallangan", Icon: ClipboardCheck, path: "/appeals/done" },
+    ],
   },
 ];
 export default adminMenu;

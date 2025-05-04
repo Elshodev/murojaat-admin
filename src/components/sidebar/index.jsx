@@ -56,7 +56,7 @@ function Sidebar() {
             .filter((item) => item.allowRole.includes(user?.role.roleId))
             .map((item) =>
               item.children ? (
-                <SidebarDropdown key={item.label} item={item} />
+                <SidebarDropdown key={item.title} item={item} />
               ) : (
                 <SidebarItem isOpen={isShow} key={item.path} item={item} />
               )

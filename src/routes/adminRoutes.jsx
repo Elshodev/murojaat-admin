@@ -1,3 +1,4 @@
+import AppealsLayout from "@/pages/appeals";
 import {
   Categories,
   Dashboard,
@@ -13,6 +14,16 @@ const adminRoutes = [
   { path: "/respondents/*", element: <Respondents />, allowRole: [1, 2, 3] },
   { path: "/categories/*", element: <Categories />, allowRole: [1] },
   { path: "/regions/*", element: <Regions />, allowRole: [1] },
+  {
+    path: "/appeals",
+    element: <AppealsLayout />,
+    allowRole: [1],
+    children: [
+      { path: "new", element: <h1>New</h1> },
+      { path: "inProgres", element: <h1>Jarayonda</h1> },
+      { path: "done", element: <h1>Tugatilgan</h1> },
+    ],
+  },
 ];
 
 export default adminRoutes;
