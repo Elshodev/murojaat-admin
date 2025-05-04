@@ -12,7 +12,8 @@ const RenderCell = ({ value, id }) => {
 
   return (
     <span
-      className={`font-medium ${
+      title={value}
+      className={`font-medium line-clamp-2 ${
         isEmpty ? "text-gray-400 italic opacity-70" : color
       }`}
     >

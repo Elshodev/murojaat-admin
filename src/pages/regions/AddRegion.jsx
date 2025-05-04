@@ -6,16 +6,16 @@ function AddRegion() {
   return (
     <>
       <PageHeader
-        title="Добавить регион"
+        title="Viloyat qo'shish"
         breadcrumbs={[
-          { label: "Админ", link: "/" },
-          { label: "Регионы", link: "/regions" },
-          { label: "Добавить регион" },
+          { label: "Admin", link: "/" },
+          { label: "Viloyatlar", link: "/regions" },
+          { label: "Viloyat qo'shish" },
         ]}
       />
-      <div className="mx-auto px-[20px] py-5">
+      <div className="px-[20px] py-5">
         <div className="flex flex-col items-start gap-3 gap-y-[50px] bg-white p-6">
-          <BackLink links={{ title: "Регионы", link: `/regions` }} />
+          <BackLink links={{ title: "Viloyatlar", link: `/regions` }} />
           <RegionForm />
         </div>
       </div>

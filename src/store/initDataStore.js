@@ -1,22 +1,21 @@
 import { create } from "zustand";
 import request from "../services/fetch.service.js";
-let casheId = null;
+import roles from "@/constants/roles.js";
+let casheRole = null;
 const useInitDataStore = create((set) => ({
-  companies: [],
   regions: [],
-  branches: [],
+  categories: [],
   roles: [],
   isLoading: true,
   error: null,
 
-  fetchInitData: async (roleId) => {
-    
-    if (roleId) {
-      casheId = roleId;
+  fetchInitData: async (role) => {
+    if (role) {
+      casheRole = role;
     }
 
     set({ isLoading: true, error: null });
-    if (casheId == 1) {
+    if (casheRole == 1) {
       set({
         roles: [
           {
@@ -37,7 +36,7 @@ const useInitDataStore = create((set) => ({
           },
         ],
       });
-    } else if (casheId == 2) {
+    } else if (casheRole == 2) {
       set({
         roles: [
           {
@@ -46,7 +45,7 @@ const useInitDataStore = create((set) => ({
           },
         ],
       });
-    }else if (casheId == 3) {
+    } else if (casheRole == 3) {
       set({
         roles: [
           {
@@ -63,40 +62,26 @@ const useInitDataStore = create((set) => ({
     try {
       const requests = [];
 
-      if (casheId === 1) {
+      if (casheRole === roles.ADMIN) {
+        requests.push(request("/regions"), request("/departments"));
+      } else if (casheRole === 2) {
+        requests.push(request("/regions?page=1&size=1000"), null);
+      } else if (casheRole === 3) {
         requests.push(
-          request("/company?page=1&size=1000"),
           request("/regions?page=1&size=1000"),
-          request("/branches?page=1&size=1000")
+          request("/departments")
         );
+      } else if (casheRole === 5) {
+        requests.push(request("/regions?page=1&size=1000"), null);
       }
 
-      else if (casheId === 2) {
-        requests.push(null, request("/regions?page=1&size=1000"), null);
-      } else if (casheId === 3) {
-        requests.push(
-          null,
-          request("/regions?page=1&size=1000"),
-          request("/branches?page=1&size=1000")
-        );
-      }
-
-      else if (casheId === 5) {
-        requests.push(
-          null, 
-          request("/regions?page=1&size=1000"),
-          null 
-        );
-      }
-
-      const [companiesRes, regionsRes, branchesRes] = await Promise.all(
+      const [regionsRes, categoriesRes] = await Promise.all(
         requests.map((r) => (r ? r : Promise.resolve({ data: [] })))
       );
 
       set({
-        companies: companiesRes?.data || [],
         regions: regionsRes?.data || [],
-        branches: branchesRes?.data || [],
+        categories: categoriesRes?.data || [],
         isLoading: false,
         error: null,
       });

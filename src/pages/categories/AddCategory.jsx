@@ -6,16 +6,16 @@ function AddCategory() {
   return (
     <>
       <PageHeader
-        title="Добавить категорию"
+        title="Bo'lim qo'shish"
         breadcrumbs={[
-          { label: "Админ", link: "/" },
-          { label: "Категории", link: "/categories" },
-          { label: "Добавить категорию" },
+          { label: "Admin", link: "/" },
+          { label: "Bo'limlar", link: "/categories" },
+          { label: "Bo'lim qo'shish" },
         ]}
       />
       <div className="px-[20px] py-5">
         <div className="flex flex-col items-start gap-3 gap-y-[50px] bg-white p-6">
-          <BackLink links={{ title: "Категории", link: `/categories` }} />
+          <BackLink links={{ title: "Bo'limlar", link: `/categories` }} />
           <CategoryForm />
         </div>
       </div>

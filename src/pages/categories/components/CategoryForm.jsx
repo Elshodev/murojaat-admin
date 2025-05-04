@@ -10,9 +10,9 @@ function CategoryForm() {
   const [formData, setFormData] = useState({});
   const handleSubmit = (e) => {
     e.preventDefault();
-    request("/products/category", "POST", formData)
+    request("/departments", "POST", formData)
       .then(() => {
-        showToast.success("Категория успешно создана!");
+        showToast.success("Bo'lim muvaffaqiyatli yaratildi!");
         navigate(`/categories`);
       })
       .catch((error) => {
@@ -29,14 +29,13 @@ function CategoryForm() {
       <div className="grid lg:grid-cols-4 grid-cols-3 w-full gap-4">
         <CustomInput
           onChange={handleChange}
-          className=""
-          label="Название"
-          placeholder="Название"
+          label="Bo'lim nomi"
+          placeholder="Bo'lim nomi"
           name={"name"}
           value={formData?.name || ""}
         />
         <UniversalBtn className="self-end justify-center" type="submit">
-          Создавать
+          Yaratish
         </UniversalBtn>
       </div>
     </form>

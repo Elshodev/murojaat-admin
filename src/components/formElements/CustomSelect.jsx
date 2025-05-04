@@ -22,7 +22,7 @@ const CustomSelect = ({
   name,
 }) => {
   return (
-    <div className={`flex flex-col gap-2 grow ${divClass}`}>
+    <div className={`flex flex-col overflow-hidden gap-2 grow ${divClass}`}>
       {label && <CustomLabel labelText={label} />}
 
       <Select

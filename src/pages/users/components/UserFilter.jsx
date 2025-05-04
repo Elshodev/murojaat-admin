@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useInitDataStore from "@/store/initDataStore.js";
 import { size } from "@/constants/paginationStuffs.js";
 import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
+import { Search } from "lucide-react";
 
 const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
   const { roles } = useInitDataStore();
@@ -55,7 +56,9 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
       onSubmit={handleSubmit}
       className="grid-cols-[50px_1fr_1fr_1fr_1fr_2fr] shrink-0 grid w-full min-h-[36px] mt-1 gap-[2px] rounded py-1 bg-white items-center text-sm font-medium"
     >
-      <div></div>
+      <div className="flex justify-center">
+        <Search className="text-main-blackish" />
+      </div>
       <CustomInput
         onChange={handleChange}
         placeholder="F.I.O"
@@ -82,7 +85,7 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
       />
       <div></div>
       <UniversalBtn className="self-end justify-center" type="submit">
-        Поиск
+        Qidirish
       </UniversalBtn>
     </form>
   );

@@ -14,16 +14,16 @@ function RegionSinglePage() {
   return (
     <>
       <PageHeader
-        title="Изменить регион"
+        title="Viloyatni o'zgartirish"
         breadcrumbs={[
-          { label: "Админ", link: "/" },
-          { label: "Регионы", link: "/regions" },
+          { label: "Admin", link: "/" },
+          { label: "Viloyatlar", link: "/regions" },
           { label: region?.name },
         ]}
       />
-      <div className="mx-auto px-[20px] py-5">
+      <div className="px-[20px] py-5">
         <div className="flex flex-col items-start gap-3 gap-y-[50px] bg-white p-6">
-          <BackLink links={{ title: "Регионы", link: `/regions` }} />
+          <BackLink links={{ title: "Viloyatlar", link: `/regions` }} />
           <RegionFormEdit data={region} />
         </div>
       </div>

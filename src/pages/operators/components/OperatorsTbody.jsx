@@ -14,11 +14,13 @@ function OperatorsTbody({ datas, className }) {
           <RenderCell value={item.fullName} />
           <span>{formatPhoneNumber(item?.phone)}</span>
           <RenderCell value={item.region} />
-          <RenderCell value={item.category} />
+          <RenderCell value={item.deportament} />
           <div className="grid grid-cols-3 w-full place-items-center">
             <RenderCell value={item.appeals.new} />
             <RenderCell value={item.appeals.inProgress} />
-            <RenderCell value={item.appeals.answered} />
+            <RenderCell
+              value={`${item.appeals.positive} / ${item.appeals.negative}`}
+            />
           </div>
           <MoreLink link={`${item.id}`} />
         </div>

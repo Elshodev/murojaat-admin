@@ -5,76 +5,44 @@ import PageLoader from "@/components/loader/PageLoader.jsx";
 import UniversalTable from "@/components/tables/UniversalTables.jsx";
 import { usersGridHeaderConfig } from "@/constants/tableHeadNames.js";
 import { useRequest } from "@/hooks/useRequest.js";
-import { size } from "@/constants/paginationStuffs.js";
 import UserTbody from "./components/UserTbody.jsx";
 import GridTableHeader from "./components/GridTableHeader.jsx";
+import UserFilter from "./components/UserFilter.jsx";
 
 function Users() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const { data, isLoading, error } = useRequest(
-    `/users?${searchParams.toString() || `page=${currentPage}&size=${size}`}`
-  );
+  const {
+    data: users,
+    isLoading,
+    error,
+  } = useRequest(`/operator/users${searchParams.toString()}`);
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
-  const users = {
-    data: [
-      {
-        id: 7,
-        fullName: "Elshod Jurabekov Dilshod o'g'li",
-        phone: "998333322229",
-        region: "Jizzax viloyati",
-        createdAt: "2025-04-01T08:29:33.429Z",
-        appeals: {
-          sent: 3,
-          inProgress: 2,
-          answered: 4,
-          total: 9,
-        },
-      },
-      {
-        id: 8,
-        fullName: "Elshod Jurabekov Dilshod o'g'li",
-        phone: "998955056969",
-        region: "Jizzax viloyati",
-        createdAt: "2025-04-01T08:29:33.429Z",
-        appeals: {
-          sent: 2,
-          inProgress: 2,
-          answered: 2,
-          total: 6,
-        },
-      },
-    ],
-    totalPage: 1,
-    currentPage: 1,
-    hasNextPage: false,
-    hasPreviousPage: false,
-    totalItems: 6,
-  };
+  console.log(users);
   return (
     <>
       <PageHeader
-        title="Foydalanuvchilar"
+        title="Murojaatchilar"
         breadcrumbs={[
           { label: "Admin", link: "/" },
-          { label: "Foydalanuvchilar" },
+          { label: "Murojaatchilar" },
         ]}
       />
 
       <div className="px-[20px] grow h-full overflow-hidden flex flex-col py-5">
         {users?.totalItems === 0 && searchParams.toString() === "" ? (
-          <EmptyText text="Foydalanuvchilar hali yo'q!" />
+          <EmptyText text="Murojaatchilar hali yo'q!" />
         ) : (
           <UniversalTable datas={users}>
             <GridTableHeader config={usersGridHeaderConfig} />
-            {/* <UserFilter
+            <UserFilter
               searchParams={searchParams}
               currentPage={currentPage}
               setSearchParams={setSearchParams}
-            /> */}
+            />
             <UserTbody
               className="grid-cols-[50px_1fr_1fr_1fr_1fr_2fr] place-items-center"
               datas={users?.data}

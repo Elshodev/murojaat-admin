@@ -17,7 +17,7 @@ function SearchableSelect({
   const fetchOptions = async (inputValue) => {
     try {
       const response = await request(
-        `${endpoint}?page=1&size=10&${queryParam}=${inputValue}`,
+        `${endpoint}?${queryParam}=${inputValue}`,
         "GET"
       );
       return response.data
@@ -58,6 +58,10 @@ function SearchableSelect({
       <AsyncSelect
         required={required}
         cacheOptions
+        classNames={{
+          control: ({ isFocused }) =>
+            `border !border-main-blue !min-h-[36px] !shadow-none whitespace-nowrap`,
+        }}
         placeholder={placeholder}
         loadOptions={loadOptions}
         isClearable

@@ -16,11 +16,11 @@ function CategoryFormEdit({ data }) {
   const queryClient = useQueryClient();
   const handleSubmit = (e) => {
     e.preventDefault();
-    request(`/products/category/${data.id}`, "PUT", formData)
+    request(`/departments/${data.id}`, "PUT", formData)
       .then(() => {
-        showToast.success("Категория успешно обновлена!");
-        queryClient.invalidateQueries([`/products/category/${data.id}`]);
-        navigate(`/categories`);
+        showToast.success("Bo'lim muvaffaqiyatli o'zgartirildi!");
+        queryClient.invalidateQueries([`/departments/${data.id}`]);
+        setIsOpenEdit(false);
       })
       .catch((error) => {
         console.error("Error editing category:", error);
@@ -29,9 +29,9 @@ function CategoryFormEdit({ data }) {
   };
   const handleDelete = () => {
     setLoading(true);
-    request(`/products/category/${data.id}`, "DELETE")
+    request(`/departments/${data.id}`, "DELETE")
       .then(() => {
-        showToast.success("Категория успешно удалена!");
+        showToast.success("Bo'lim muvaffaqiyatli o'chirildi!");
         navigate(`/categories`);
       })
       .catch((err) => showToast.error(err.response.data.message))
@@ -51,8 +51,8 @@ function CategoryFormEdit({ data }) {
         <CustomInput
           onChange={handleChange}
           editable={isOpenEdit}
-          label="Имя"
-          placeholder="Имя"
+          label="Bo'lim nomi"
+          placeholder="Bo'lim nomi"
           name={"name"}
           required={false}
           value={formData?.name ?? data?.name ?? ""}
@@ -67,9 +67,9 @@ function CategoryFormEdit({ data }) {
                 setIsOpenEdit(false);
               }}
             >
-              Отмена
+              Bekor qilish
             </UniversalBtn>
-            <UniversalBtn type="submit">Сохранить</UniversalBtn>
+            <UniversalBtn type="submit">Saqlash</UniversalBtn>
           </>
         ) : (
           <UniversalBtn
@@ -78,14 +78,14 @@ function CategoryFormEdit({ data }) {
               setIsOpenEdit(true);
             }}
           >
-            Изменить
+            O'zgartirish
           </UniversalBtn>
         )}
         <UniversalBtn
           onClick={() => setShowPopUp(true)}
           className="!bg-[#ff353519] !text-[#ff3535] hover:!bg-[#ff353548]"
         >
-          Удалить
+          O'chirish
         </UniversalBtn>
       </div>
       {showPopUp && (

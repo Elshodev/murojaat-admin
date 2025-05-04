@@ -7,57 +7,25 @@ import PageHeader from "@/components/header/PageHeader.jsx";
 import PageLoader from "@/components/loader/PageLoader.jsx";
 import UniversalTable from "@/components/tables/UniversalTables.jsx";
 import { useRequest } from "@/hooks/useRequest.js";
-import { size } from "@/constants/paginationStuffs.js";
 import OperatorsTbody from "./components/OperatorsTbody.jsx";
 import GridTableHeader from "../users/components/GridTableHeader.jsx";
 import { operatorsGridHeaderConfig } from "@/constants/tableHeadNames.js";
+import OperatorFilter from "./components/OperatorFilter.jsx";
 
 function Operators() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const { data, isLoading, error } = useRequest(
-    `/users?${searchParams.toString() || `page=${currentPage}&size=${size}`}`
-  );
+  const {
+    data: users,
+    isLoading,
+    error,
+  } = useRequest(`/operator?role=OPERATOR&${searchParams.toString()}`);
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
-  const users = {
-    data: [
-      {
-        id: 7,
-        fullName: "Elshod Jurabekov Dilshod o'g'li",
-        phone: "998333322229",
-        region: "Jizzax viloyati",
-        category: "",
-        createdAt: "2025-04-01T08:29:33.429Z",
-        appeals: {
-          new: 3,
-          inProgress: 2,
-          answered: 4,
-        },
-      },
-      {
-        id: 8,
-        fullName: "Elshod Jurabekov Dilshod o'g'li",
-        phone: "998955056969",
-        region: "Jizzax viloyati",
-        category: "",
-        createdAt: "2025-04-01T08:29:33.429Z",
-        appeals: {
-          new: 2,
-          inProgress: 2,
-          answered: 2,
-        },
-      },
-    ],
-    totalPage: 1,
-    currentPage: 1,
-    hasNextPage: false,
-    hasPreviousPage: false,
-    totalItems: 6,
-  };
+
   return (
     <>
       <PageHeader
@@ -79,8 +47,13 @@ function Operators() {
         ) : (
           <UniversalTable datas={users}>
             <GridTableHeader config={operatorsGridHeaderConfig} />
+            <OperatorFilter
+              searchParams={searchParams}
+              currentPage={currentPage}
+              setSearchParams={setSearchParams}
+            />
             <OperatorsTbody
-              className="grid-cols-[50px_1fr_1fr_1fr_1fr_2fr_1fr] place-items-center"
+              className="grid-cols-[50px_1fr_1fr_1fr_1fr_1.5fr_100px] place-items-center"
               datas={users?.data}
             />
           </UniversalTable>

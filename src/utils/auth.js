@@ -53,10 +53,11 @@ export const fetchUserData = async (navigate, setIsLoading, setIsError) => {
   }
 
   try {
-    const res = await axios.get(`${apiUrl}/auth/me`, {
+    const res = await axios.get(`${apiUrl}/auth/profile`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    const userData = res.data.data;
+
+    const userData = res.data;
     useUserStore.getState().setUser(userData);
   } catch (error) {
     setIsError(error);

@@ -17,7 +17,7 @@ const AdminLayout = () => {
     if (!user) {
       fetchUserData(navigate, setIsLoading, setIsError);
     }
-    fetchInitData(user?.role?.roleId);
+    fetchInitData(user?.role);
   }, [user]);
   if (isLoading) return <PageLoader />;
   if (isError) {

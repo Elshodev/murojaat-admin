@@ -11,7 +11,7 @@ export const usersGridHeaderConfig = {
       type: "group",
       columns: "grid-cols-4",
       children: [
-        { label: "Yuborgan" },
+        { label: "Yangi" },
         { label: "Jarayonda" },
         { label: "Javob berilgan" },
         { label: "Jami" },
@@ -29,7 +29,7 @@ export const regionsGridHeaderConfig = {
   ],
 };
 export const operatorsGridHeaderConfig = {
-  gridTemplate: "grid-cols-[50px_1fr_1fr_1fr_1fr_2fr_1fr]",
+  gridTemplate: "grid-cols-[50px_1fr_1fr_1fr_1fr_1.5fr_100px]",
   headers: [
     { label: "№", type: "cell" },
     { label: "F.I.O", type: "cell" },
@@ -43,7 +43,7 @@ export const operatorsGridHeaderConfig = {
       children: [
         { label: "Yangi" },
         { label: "Jarayonda" },
-        { label: "Javob berilgan" },
+        { label: "Ijobiy / Salbiy" },
       ],
     },
     { label: "Harakatlar", type: "cell" },
@@ -57,4 +57,3 @@ export const categoriesGridHeaderConfig = {
     { label: "Harakatlar", type: "cell" },
   ],
 };
-

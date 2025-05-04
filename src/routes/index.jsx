@@ -33,7 +33,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<AdminLayout />}>
           {adminRoutes
-            .filter((item) => item.allowRole.includes(user?.role.roleId))
+            .filter((item) => item.allowRole.includes(user?.role))
             .map(({ path, element, children }) => (
               <Route key={path} path={path} element={element}>
                 {children &&

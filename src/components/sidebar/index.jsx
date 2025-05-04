@@ -53,7 +53,7 @@ function Sidebar() {
         </div>
         <nav className="flex flex-col h-auto gap-2">
           {adminMenu
-            .filter((item) => item.allowRole.includes(user?.role.roleId))
+            .filter((item) => item.allowRole.includes(user?.role))
             .map((item) =>
               item.children ? (
                 <SidebarDropdown key={item.title} item={item} />

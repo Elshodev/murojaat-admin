@@ -13,14 +13,12 @@ function RegionFormEdit({ data }) {
   const [showPopUp, setShowPopUp] = useState(false);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
-  const queryClient = useQueryClient();
   const handleSubmit = (e) => {
     e.preventDefault();
     request(`/regions/${data.id}`, "PUT", formData)
       .then(() => {
-        showToast.success("Регион успешно обновлена!");
-        navigate(`/regions`);
-        queryClient.invalidateQueries([`/regions/${data.id}`]);
+        showToast.success("Viloyat muvaffaqiyatli o'zgartirildi!");
+        setIsOpenEdit(false);
       })
       .catch((error) => {
         console.error("Error editing region:", error);
@@ -31,7 +29,7 @@ function RegionFormEdit({ data }) {
     setLoading(true);
     request(`/regions/${data.id}`, "DELETE")
       .then(() => {
-        showToast.success("Регион успешно удалена!");
+        showToast.success("Viloyat muvaffaqiyatli o'chirildi!");
         navigate(`/regions`);
       })
       .catch((err) => showToast.error(err.response.data.message))
@@ -51,8 +49,8 @@ function RegionFormEdit({ data }) {
         <CustomInput
           onChange={handleChange}
           editable={isOpenEdit}
-          label="Название региона"
-          placeholder="Название региона"
+          label="Viloyat nomi"
+          placeholder="Viloyat nomi"
           name={"name"}
           required={false}
           value={formData?.name ?? data?.name ?? ""}
@@ -67,9 +65,9 @@ function RegionFormEdit({ data }) {
                 setIsOpenEdit(false);
               }}
             >
-              Отмена
+              Bekor qilish
             </UniversalBtn>
-            <UniversalBtn type="submit">Сохранить</UniversalBtn>
+            <UniversalBtn type="submit">Saqlash</UniversalBtn>
           </>
         ) : (
           <UniversalBtn
@@ -78,14 +76,14 @@ function RegionFormEdit({ data }) {
               setIsOpenEdit(true);
             }}
           >
-            Изменить
+            O'zgartirish
           </UniversalBtn>
         )}
         <UniversalBtn
           onClick={() => setShowPopUp(true)}
           className="!bg-[#ff353519] !text-[#ff3535] hover:!bg-[#ff353548]"
         >
-          Удалить
+          O'chirish
         </UniversalBtn>
       </div>
       {showPopUp && (

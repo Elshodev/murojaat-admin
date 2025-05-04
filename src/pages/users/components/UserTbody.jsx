@@ -14,9 +14,9 @@ function UserTbody({ datas, className }) {
           <RenderCell value={item.fullName} />
           <span>{formatPhoneNumber(item?.phone)}</span>
           <RenderCell value={item.region} />
-          <span>{formatDate(item?.createdAt)}</span>
+          <span>{formatDate(item?.created_at)}</span>
           <div className="grid grid-cols-4 w-full place-items-center">
-            <RenderCell value={item.appeals.sent} />
+            <RenderCell value={item.appeals.new} />
             <RenderCell value={item.appeals.inProgress} />
             <RenderCell value={item.appeals.answered} />
             <RenderCell value={item.appeals.total} />
