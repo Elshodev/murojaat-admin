@@ -8,21 +8,17 @@ import { useRequest } from "@/hooks/useRequest.js";
 import { Plus } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import RegionTbody from "./components/RegionTbody.jsx";
-import { size } from "@/constants/paginationStuffs.js";
 import GridTableHeader from "../users/components/GridTableHeader.jsx";
 
 function Regions() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) || 1;
+  const [searchParams] = useSearchParams();
 
   const {
     data: regions,
     isLoading,
     error,
-  } = useRequest(
-    `/regions?${searchParams.toString() || `page=${currentPage}&size=${size}`}`
-  );
+  } = useRequest(`/regions?${searchParams.toString()}`);
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
 

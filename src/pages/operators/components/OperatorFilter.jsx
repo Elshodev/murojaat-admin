@@ -34,11 +34,6 @@ const OperatorFilter = ({ searchParams, currentPage, setSearchParams }) => {
     if (currentPage > 1) params.set("page", currentPage);
     if (filterData.name) params.set("name", filterData.name);
     if (filterData.role) params.set("role", filterData.role);
-    // if (filterData.phone) {
-    //   const cleanedPhoneNumber =
-    //     filterData.phone?.replace(/\D/g, "").replace(/^998/, "") || "";
-    //   params.set("phone", cleanedPhoneNumber);
-    // }
     if (filterData.deportament_id)
       params.set("deportament_id", filterData.deportament_id);
     if (filterData.region_id) params.set("region_id", filterData.region_id);

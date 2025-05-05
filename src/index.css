@@ -209,7 +209,9 @@ input:-webkit-autofill {
   font-size: 14px !important;
   box-shadow: 0 0 0 30px white inset !important;
 }
-
+textarea {
+  resize: none;
+}
 .ant-pagination-item {
   height: auto !important;
   min-width: auto !important;

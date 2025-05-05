@@ -5,6 +5,7 @@ export const useRequest = (endpoint) => {
   return useQuery({
     queryKey: [endpoint],
     queryFn: () => request(endpoint),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
+    // refetchInterval: 1000,
   });
 };

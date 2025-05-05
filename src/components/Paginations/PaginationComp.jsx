@@ -12,10 +12,8 @@ function PaginationComp({ total, current, totalPages, limit }) {
     const urlSearchParams = new URLSearchParams(currentQueryString);
     if (page !== 1) {
       urlSearchParams.set("page", page.toString());
-      urlSearchParams.set("size", size.toString());
     } else {
       urlSearchParams.delete("page");
-      urlSearchParams.delete("size");
     }
     const newQueryString = urlSearchParams.toString();
 

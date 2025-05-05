@@ -1,6 +1,5 @@
 import MoreLink from "@/components/MoreLink.jsx";
 import RenderCell from "@/components/tables/RenderCell.jsx";
-// import { formatPhoneNumber } from "@/utils/formatPhoneNumber .js";
 
 const translateRole = (role) => {
   switch (role) {
@@ -15,8 +14,6 @@ const translateRole = (role) => {
   }
 };
 function OperatorsTbody({ datas, className }) {
-  console.log(datas);
-
   return (
     <div className="flex flex-col overflow-auto grow">
       {datas.map((item, index) => (
