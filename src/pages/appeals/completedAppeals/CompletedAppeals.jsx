@@ -19,7 +19,6 @@ function CompletedAppeals() {
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
-  console.log(appealsCompleted);
 
   return (
     <>

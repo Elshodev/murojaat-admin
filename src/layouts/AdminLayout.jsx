@@ -6,6 +6,7 @@ import { useUserStore } from "@/store/userStore.js";
 import { fetchUserData } from "@/utils/auth.js";
 import PageLoader from "@/components/loader/PageLoader.jsx";
 import NoConnection from "@/components/noConnection/NoConnection.jsx";
+import roles from "@/constants/roles.js";
 
 const AdminLayout = () => {
   const { fetchInitData } = useInitDataStore();
@@ -19,6 +20,11 @@ const AdminLayout = () => {
     }
     fetchInitData(user?.role);
   }, [user]);
+  useEffect(() => {
+    if (user?.role === roles.EMPLOYEE) {
+      navigate("/employee");
+    }
+  }, [user, navigate]);
   if (isLoading) return <PageLoader />;
   if (isError) {
     if (isError.status == 401) {
@@ -29,6 +35,7 @@ const AdminLayout = () => {
       return <NoConnection />;
     }
   }
+
   return (
     <div className="flex h-screen w-full bg-[#F8F8F8]">
       <Sidebar />

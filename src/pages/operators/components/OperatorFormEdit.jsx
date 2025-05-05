@@ -158,10 +158,10 @@ function OperatorFormEdit({ data }) {
                 setIsOpenEdit(false);
               }}
             >
-              Отмена
+              Bekor qilish
             </UniversalBtn>
             <UniversalBtn loading={loading} type="submit">
-              Сохранить
+              Saqlash
             </UniversalBtn>
           </>
         ) : (
@@ -171,7 +171,7 @@ function OperatorFormEdit({ data }) {
               setIsOpenEdit(true);
             }}
           >
-            Изменить
+            O'zgartirish
           </UniversalBtn>
         )}
         <UniversalBtn
@@ -179,7 +179,7 @@ function OperatorFormEdit({ data }) {
           onClick={() => setShowPopUp(true)}
           className="!bg-[#ff353519] !text-[#ff3535] hover:!bg-[#ff353548]"
         >
-          Удалить
+          O'chirish
         </UniversalBtn>
       </div>
       {showPopUp && (

@@ -13,16 +13,16 @@ function OperatorSinglePage() {
   return (
     <>
       <PageHeader
-        title="Изменить пользователя"
+        title="Xodim ma'lumotlarini o'zgartirish"
         breadcrumbs={[
-          { label: "Админ", link: "/" },
-          { label: "Пользователи", link: "/users" },
-          { label: user?.name },
+          { label: "Admin", link: "/" },
+          { label: "Xodimlar", link: "/operators" },
+          { label: user?.full_name },
         ]}
       />
       <div className="px-[20px] py-5">
         <div className="flex flex-col items-start gap-3 gap-y-[50px] bg-white p-6">
-          <BackLink links={{ title: "Пользователи", link: `/users` }} />
+          <BackLink links={{ title: "Xodimlar", link: `/operators` }} />
           <OperatorFormEdit data={user} />
         </div>
       </div>

@@ -1,4 +1,5 @@
 import PageLoader from "@/components/loader/PageLoader";
+import roles from "@/constants/roles";
 import AppealsLayout from "@/pages/appeals";
 import Appeals from "@/pages/appeals/Appeals";
 import CompletedAppeals from "@/pages/appeals/completedAppeals/CompletedAppeals";
@@ -13,6 +14,7 @@ import {
   Users,
 } from "@/pages/index.jsx";
 import { Suspense } from "react";
+
 const adminRoutes = [
   {
     path: "/",
@@ -21,7 +23,7 @@ const adminRoutes = [
         <Dashboard />
       </Suspense>
     ),
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN, roles.OPERATOR],
   },
   {
     path: "/users",
@@ -30,7 +32,7 @@ const adminRoutes = [
         <Users />
       </Suspense>
     ),
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN, roles.OPERATOR],
   },
   {
     path: "/operators/*",
@@ -39,7 +41,7 @@ const adminRoutes = [
         <Operators />
       </Suspense>
     ),
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN],
   },
   {
     path: "/respondents/*",
@@ -48,7 +50,7 @@ const adminRoutes = [
         <Respondents />
       </Suspense>
     ),
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN, roles.OPERATOR],
   },
   {
     path: "/categories/*",
@@ -57,7 +59,7 @@ const adminRoutes = [
         <Categories />
       </Suspense>
     ),
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN, roles.OPERATOR],
   },
   {
     path: "/regions/*",
@@ -66,12 +68,12 @@ const adminRoutes = [
         <Regions />
       </Suspense>
     ),
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN, roles.OPERATOR],
   },
   {
     path: "/appeals",
     element: <AppealsLayout />,
-    allowRole: ["ADMIN"],
+    allowRole: [roles.ADMIN, roles.OPERATOR],
     children: [
       {
         path: "/appeals",
