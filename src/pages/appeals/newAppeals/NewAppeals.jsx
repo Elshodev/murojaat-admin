@@ -2,96 +2,21 @@ import EmptyText from "@/components/EmptyText/EmptyText";
 import PageHeader from "@/components/header/PageHeader";
 import PageLoader from "@/components/loader/PageLoader";
 import { useRequest } from "@/hooks/useRequest";
-import { useState } from "react";
-import { formatDate } from "@/utils/dateFormatter";
-import UniversalBtn from "@/components/buttons/UniversalBtn";
-import TextareaAutosize from "react-textarea-autosize";
-import SearchableSelect from "@/components/formElements/SearchableSelect";
 import useInitDataStore from "@/store/initDataStore";
-import { showToast } from "@/utils/toastHelper";
-import { useQueryClient } from "@tanstack/react-query";
-import request from "@/services/fetch.service";
 import PaginationComp from "@/components/Paginations/PaginationComp";
 import { useSearchParams } from "react-router-dom";
+import UserCard from "../components/UserCard";
+import AppealActions from "../components/AppealActions";
 
 function NewAppeals() {
   const { regions, categories } = useInitDataStore();
   const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
-  const queryClient = useQueryClient();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    region_id: null,
-    department_id: null,
-    operator_id: null,
-  });
-
   const {
     data: appealsNew,
     isLoading,
     error,
   } = useRequest(`/operator/applications?status=NEW&page=${currentPage}`, 1000);
-  const queryParams = new URLSearchParams({
-    role: "EMPLOYEE",
-    ...(formData?.region_id && { region_id: formData.region_id }),
-    ...(formData?.department_id && { deportament_id: formData.department_id }),
-  });
-
-  const { data: users, isLoading: isLoadingOperator } = useRequest(
-    `/operator?${queryParams.toString()}`
-  );
-
-  const [isReplying, setIsReplying] = useState(null);
-  const [isRedirecting, setIsRedirecting] = useState(null);
-  const [replyText, setReplyText] = useState("");
-
-  const handleCompleteAppeal = (appealId, status) => {
-    setLoading(true);
-    request(`/operator/application-send-message`, "POST", {
-      message: replyText,
-      ticket_id: appealId,
-      status: status, // "POSITIVE" yoki "NEGATIVE"
-    })
-      .then(() => {
-        showToast.success("Ariza yakunlandi!");
-        queryClient.invalidateQueries([
-          `/operator/applications?status=NEW&page=${currentPage}`,
-        ]);
-        setReplyText("");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showToast.error(error?.response?.data?.message || "Xatolik yuz berdi");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-  const handleRedirect = async (appealId) => {
-    setLoading(true);
-    request("/operator/connect-employee", "POST", {
-      app_id: appealId,
-      operator_id: formData?.operator_id,
-    })
-      .then(() => {
-        showToast.success("Ariza muvaffaqiyatli yo'naltirildi!");
-        queryClient.invalidateQueries([
-          `/operator/applications?status=NEW&page=${currentPage}`,
-        ]);
-        setFormData({
-          region_id: null,
-          department_id: null,
-          operator_id: null,
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showToast.error(error?.response?.data?.message || "Xatolik yuz berdi");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
@@ -117,150 +42,14 @@ function NewAppeals() {
                   className="bg-white rounded-lg shadow p-4 border border-gray-200"
                 >
                   {/* Murojaatchi xabari */}
-                  <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">
-                    <div className="mb-2">
-                      <p className="text-base text-black font-bold">
-                        Murojaat sanasi:
-                      </p>
-                      <p className="text-base font-medium text-gray-800">
-                        {formatDate(item.created_at)}
-                      </p>
-                    </div>
-                    <div className="mb-2">
-                      <p className="text-base text-black font-bold">
-                        Murojaatchi ismi:
-                      </p>
-                      <p className="text-base font-medium text-gray-800">
-                        {item.user_name}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-base text-black font-bold">
-                        Murojaatchi xabari:
-                      </p>
-                      <p className="text-base text-gray-800">{item.message}</p>
-                    </div>
-                  </div>
-
-                  {isReplying === item.id ? (
-                    <div className="flex flex-col gap-2 mt-2">
-                      <TextareaAutosize
-                        minRows={6}
-                        value={replyText}
-                        onChange={(e) => setReplyText(e.target.value)}
-                        placeholder="Javob yozing..."
-                        className="border rounded p-2 text-sm w-full"
-                      />
-                      <div className="flex gap-2">
-                        <UniversalBtn
-                          className="!min-h-[30px] text-sm bg-green-600 hover:bg-green-700 text-white"
-                          loading={loading}
-                          onClick={() =>
-                            handleCompleteAppeal(item.id, "POSITIVE")
-                          }
-                        >
-                          Yakunlash (Ijobiy)
-                        </UniversalBtn>
-                        <UniversalBtn
-                          className="!min-h-[30px] text-sm bg-red-500 hover:bg-red-600 text-white"
-                          loading={loading}
-                          onClick={() =>
-                            handleCompleteAppeal(item.id, "NEGATIVE")
-                          }
-                        >
-                          Yakunlash (Salbiy)
-                        </UniversalBtn>
-                        <UniversalBtn
-                          onClick={() => {
-                            setIsReplying(null);
-                            setReplyText("");
-                          }}
-                          className="bg-main-grey hover:!bg-main-blackish !text-main-blackish hover:!text-white !min-h-[30px] text-sm"
-                        >
-                          Bekor qilish
-                        </UniversalBtn>
-                      </div>
-                    </div>
-                  ) : isRedirecting === item.id ? (
-                    <div className="flex flex-col gap-2 mt-2">
-                      <SearchableSelect
-                        placeholder="Viloyat tanlang"
-                        labelText={"Viloyat"}
-                        endpoint="/regions"
-                        queryParam="name"
-                        value={formData.region_id}
-                        defaultOptions={regions ?? []}
-                        onChange={(selected) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            region_id: selected?.value || null,
-                          }))
-                        }
-                      />
-                      <SearchableSelect
-                        placeholder="Bo‘limni tanlang"
-                        labelText={"Bo‘lim"}
-                        endpoint="/departments"
-                        queryParam="name"
-                        value={formData.department_id}
-                        defaultOptions={categories ?? []}
-                        onChange={(selected) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            department_id: selected?.value || null,
-                          }))
-                        }
-                      />
-                      <SearchableSelect
-                        placeholder="Xodim tanlang"
-                        labelText="Xodim"
-                        defaultOptions={
-                          users?.data.map((emp) => ({
-                            id: emp.id,
-                            name: emp.fullName,
-                          })) ?? []
-                        }
-                        value={formData.operator_id}
-                        onChange={(selected) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            operator_id: selected?.value || null,
-                          }))
-                        }
-                        isDisabled={isLoadingOperator}
-                      />
-                      <div className="flex gap-2">
-                        <UniversalBtn
-                          loading={loading}
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white !min-h-[30px] text-sm"
-                          onClick={() => handleRedirect(item.id)}
-                        >
-                          Yo‘naltirish
-                        </UniversalBtn>
-                        <UniversalBtn
-                          onClick={() => setIsRedirecting(null)}
-                          className="bg-main-grey hover:!bg-main-blackish !text-main-blackish hover:!text-white !min-h-[30px] text-sm"
-                        >
-                          Bekor qilish
-                        </UniversalBtn>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2 mt-2">
-                      <UniversalBtn
-                        className="!min-h-[30px] text-sm"
-                        onClick={() => setIsReplying(item.id)}
-                      >
-                        Javob yozish
-                      </UniversalBtn>
-                      <UniversalBtn
-                        className="!min-h-[30px] text-sm bg-yellow-500 hover:bg-yellow-600"
-                        onClick={() => setIsRedirecting(item.id)}
-                      >
-                        Yo‘naltirish
-                      </UniversalBtn>
-                    </div>
-                  )}
+                  <UserCard item={item} />
+                  <AppealActions
+                    item={item}
+                    status={item.status}
+                    regions={regions}
+                    categories={categories}
+                    currentPage={currentPage}
+                  />
                 </div>
               ))}
             </div>

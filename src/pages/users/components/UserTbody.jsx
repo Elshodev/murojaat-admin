@@ -1,6 +1,7 @@
 import { formatDate } from "../../../utils/dateFormatter.js";
 import RenderCell from "@/components/tables/RenderCell.jsx";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber .js";
+import { Link } from "react-router-dom";
 
 function UserTbody({ datas, className }) {
   return (
@@ -11,7 +12,13 @@ function UserTbody({ datas, className }) {
           className={`grid w-full text-center min-h-[36px] shrink-0 mt-1 rounded py-1 bg-white items-center text-sm text-main-blackish font-medium ${className}`}
         >
           <RenderCell value={index + 1} />
-          <RenderCell value={item.fullName} />
+          <Link
+            to={`/appeals?user_id=${item.id}`}
+            title={item.fullName}
+            className={`font-medium line-clamp-2 `}
+          >
+            {!item.fullName ? "Пустой" : item.fullName}
+          </Link>
           <RenderCell value={item.region} />
           <span>{formatPhoneNumber(item?.phone)}</span>
           <span>{formatDate(item?.created_at)}</span>
