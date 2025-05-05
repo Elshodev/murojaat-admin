@@ -17,7 +17,7 @@ function Users() {
     data: users,
     isLoading,
     error,
-  } = useRequest(`/operator/users?${searchParams.toString()}`);
+  } = useRequest(`/operator/users?${searchParams.toString()}`, 5000);
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;

@@ -27,7 +27,7 @@ function NewAppeals() {
   });
 
   const {
-    data: appealsNew,
+    data: appealsProgress,
     isLoading,
     error,
   } = useRequest(
@@ -135,37 +135,73 @@ function NewAppeals() {
         ]}
       />
       <div className="px-[20px] grow h-full overflow-y-auto py-5">
-        {appealsNew?.totalItems == 0 ? (
+        {appealsProgress?.totalItems == 0 ? (
           <EmptyText text={"Jarayondagi arizalar hali yo'q!"} />
         ) : (
           <div className="overflow-hidden flex flex-col h-full grow">
             <div className="flex flex-col h-full overflow-auto gap-4">
-              {appealsNew.data.map((item) => (
+              {appealsProgress.data.map((item) => (
                 <div
                   key={item.id}
                   className="bg-white rounded-lg shadow p-4 border border-gray-200"
                 >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-base">
-                      Murojaatchi:{" "}
-                      <span className="font-semibold">{item.user_name}</span>
-                    </h3>
-                    <span className="text-sm text-gray-500">
-                      {formatDate(item.created_at)}
-                    </span>
+                  {/* Murojaatchi xabari */}
+                  <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">
+                    <div className="mb-2">
+                      <p className="text-base text-black font-bold">
+                        Murojaat sanasi:
+                      </p>
+                      <p className="text-base font-medium text-gray-800">
+                        {formatDate(item.created_at)}
+                      </p>
+                    </div>
+                    <div className="mb-2">
+                      <p className="text-base text-black font-bold">
+                        Murojaatchi ismi:
+                      </p>
+                      <p className="text-base font-medium text-gray-800">
+                        {item.user_name}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-base text-black font-bold">
+                        Murojaatchi xabari:
+                      </p>
+                      <p className="text-base text-gray-800">{item.message}</p>
+                    </div>
                   </div>
-                  <p className="text-sm mb-2">
-                    <span className="font-semibold">Murojaat</span>:{" "}
-                    {item.message}
-                  </p>
-                  {item.operator_message && (
-                    <div className="bg-gray-100 p-3 rounded mt-2">
-                      <p>
-                        <strong>Javob:</strong> {item.operator_message}
-                      </p>
-                      <p className="text-xs text-right text-gray-500 mt-1">
-                        Javob bergan: {item.operator_name || "Noma’lum"}
-                      </p>
+
+                  {/* Operator javobi bo‘lsa */}
+                  {(item.operator_name || item.operator_message) && (
+                    <div className="mb-4 p-4 bg-blue-50 rounded-md border border-blue-200">
+                      <div className="mb-2">
+                        <p className="text-base text-blue-600 font-bold">
+                          Javob berilgan vaqt:
+                        </p>
+                        <p className="text-base font-medium text-gray-800">
+                          {formatDate(item.updated_at)}
+                        </p>
+                      </div>
+                      {item.operator_name && (
+                        <div className="mb-2">
+                          <p className="text-base text-blue-600 font-bold">
+                            Javob beruvchi ismi:
+                          </p>
+                          <p className="text-base font-medium text-gray-800">
+                            {item.operator_name}
+                          </p>
+                        </div>
+                      )}
+                      {item.operator_message && (
+                        <div>
+                          <p className="text-base text-blue-600 font-bold">
+                            Javob beruvchi javobi:
+                          </p>
+                          <p className="text-base text-gray-800">
+                            {item.operator_message}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
                   {isReplying === item.id ? (
@@ -288,9 +324,9 @@ function NewAppeals() {
               ))}
             </div>
             <PaginationComp
-              current={appealsNew?.currentPage}
-              totalPages={appealsNew?.totalPage}
-              total={appealsNew?.totalItems}
+              current={appealsProgress?.currentPage}
+              totalPages={appealsProgress?.totalPage}
+              total={appealsProgress?.totalItems}
             />
           </div>
         )}

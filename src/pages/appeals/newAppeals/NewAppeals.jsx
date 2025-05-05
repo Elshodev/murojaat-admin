@@ -30,7 +30,7 @@ function NewAppeals() {
     data: appealsNew,
     isLoading,
     error,
-  } = useRequest(`/operator/applications?status=NEW&page=${currentPage}`);
+  } = useRequest(`/operator/applications?status=NEW&page=${currentPage}`, 1000);
   const queryParams = new URLSearchParams({
     role: "EMPLOYEE",
     ...(formData?.region_id && { region_id: formData.region_id }),
@@ -100,7 +100,6 @@ function NewAppeals() {
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
-  console.log(appealsNew);
 
   return (
     <>
@@ -122,16 +121,31 @@ function NewAppeals() {
                   key={item.id}
                   className="bg-white rounded-lg shadow p-4 border border-gray-200"
                 >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-base">
-                      Murojaatchi:{" "}
-                      <span className="font-semibold">{item.user_name}</span>
-                    </h3>
-                    <span className="text-sm text-gray-500">
-                      {formatDate(item.created_at)}
-                    </span>
+                  {/* Murojaatchi xabari */}
+                  <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">
+                    <div className="mb-2">
+                      <p className="text-base text-black font-bold">
+                        Murojaat sanasi:
+                      </p>
+                      <p className="text-base font-medium text-gray-800">
+                        {formatDate(item.created_at)}
+                      </p>
+                    </div>
+                    <div className="mb-2">
+                      <p className="text-base text-black font-bold">
+                        Murojaatchi ismi:
+                      </p>
+                      <p className="text-base font-medium text-gray-800">
+                        {item.user_name}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-base text-black font-bold">
+                        Murojaatchi xabari:
+                      </p>
+                      <p className="text-base text-gray-800">{item.message}</p>
+                    </div>
                   </div>
-                  <p className="text-sm mb-2">{item.message}</p>
 
                   {isReplying === item.id ? (
                     <div className="flex flex-col gap-2 mt-2">
@@ -150,7 +164,10 @@ function NewAppeals() {
                           Yuborish
                         </UniversalBtn>
                         <UniversalBtn
-                          onClick={() => setIsReplying(null)}
+                          onClick={() => {
+                            setIsReplying(null);
+                            setReplyText("");
+                          }}
                           className="bg-main-grey hover:!bg-main-blackish !text-main-blackish hover:!text-white !min-h-[30px] text-sm"
                         >
                           Bekor qilish
@@ -222,7 +239,7 @@ function NewAppeals() {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex items-center gap-2 mt-2">
                       <UniversalBtn
                         className="!min-h-[30px] text-sm"
                         onClick={() => setIsReplying(item.id)}
