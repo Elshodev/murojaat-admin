@@ -7,12 +7,15 @@
 Loyihani yuklab olish va ishga tushirish uchun quyidagi buyruqlarni bajaring:
 
 # Repository-ni klonlash
+
 git clone <repo-url>
 
 # Loyihaga o‘tish
-cd admin-panel
+
+cd murojaat-admin
 
 # Kerakli paketlarni o‘rnatish
+
 npm install
 
 # Muhit o'zgaruvchilarini sozlash
@@ -22,6 +25,7 @@ Loyiha VITE_API_URL kabi .env o'zgaruvchilardan foydalanadi. .env faylini yarati
 VITE_API_URL=YOUR_API
 
 # Lokal serverni ishga tushirish
+
 npm run dev
 
 # 📌 Foydalanish
