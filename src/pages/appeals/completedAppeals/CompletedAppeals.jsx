@@ -50,7 +50,7 @@ function CompletedAppeals() {
               {appealsCompleted.data.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-lg transition duration-300"
+                  className="bg-white grid grid-cols-2 gap-4 rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-300"
                 >
                   {/* Murojaatchi xabari */}
                   <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">

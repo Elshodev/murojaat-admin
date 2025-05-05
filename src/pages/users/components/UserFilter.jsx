@@ -2,7 +2,7 @@ import CustomInput from "@/components/formElements/CustomInput.jsx";
 import UniversalBtn from "@/components/buttons/UniversalBtn.jsx";
 import { useEffect, useState } from "react";
 import useInitDataStore from "@/store/initDataStore.js";
-import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
+// import MaskedPhoneInput from "@/components/formElements/MaskedPhoneInput";
 import { Search } from "lucide-react";
 import SearchableSelect from "@/components/formElements/SearchableSelect";
 
@@ -52,13 +52,14 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
         required={false}
         type="search"
       />
-      <MaskedPhoneInput
+      <div></div>
+      {/* <MaskedPhoneInput
         value={filterData?.phone ?? ""}
         onChange={handleChange}
         name={"phone"}
         className="bg-white !border-main-blue"
         required={false}
-      />
+      /> */}
       <SearchableSelect
         placeholder="Viloyat tanlang"
         endpoint="/regions"

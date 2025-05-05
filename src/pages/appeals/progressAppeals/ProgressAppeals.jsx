@@ -145,65 +145,69 @@ function NewAppeals() {
                   key={item.id}
                   className="bg-white rounded-lg shadow p-4 border border-gray-200"
                 >
-                  {/* Murojaatchi xabari */}
-                  <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">
-                    <div className="mb-2">
-                      <p className="text-base text-black font-bold">
-                        Murojaat sanasi:
-                      </p>
-                      <p className="text-base font-medium text-gray-800">
-                        {formatDate(item.created_at)}
-                      </p>
-                    </div>
-                    <div className="mb-2">
-                      <p className="text-base text-black font-bold">
-                        Murojaatchi ismi:
-                      </p>
-                      <p className="text-base font-medium text-gray-800">
-                        {item.user_name}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-base text-black font-bold">
-                        Murojaatchi xabari:
-                      </p>
-                      <p className="text-base text-gray-800">{item.message}</p>
-                    </div>
-                  </div>
-
-                  {/* Operator javobi bo‘lsa */}
-                  {(item.operator_name || item.operator_message) && (
-                    <div className="mb-4 p-4 bg-blue-50 rounded-md border border-blue-200">
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Murojaatchi xabari */}
+                    <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">
                       <div className="mb-2">
-                        <p className="text-base text-blue-600 font-bold">
-                          Javob berilgan vaqt:
+                        <p className="text-base text-black font-bold">
+                          Murojaat sanasi:
                         </p>
                         <p className="text-base font-medium text-gray-800">
-                          {formatDate(item.updated_at)}
+                          {formatDate(item.created_at)}
                         </p>
                       </div>
-                      {item.operator_name && (
+                      <div className="mb-2">
+                        <p className="text-base text-black font-bold">
+                          Murojaatchi ismi:
+                        </p>
+                        <p className="text-base font-medium text-gray-800">
+                          {item.user_name}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-base text-black font-bold">
+                          Murojaatchi xabari:
+                        </p>
+                        <p className="text-base text-gray-800">
+                          {item.message}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Operator javobi bo‘lsa */}
+                    {(item.operator_name || item.operator_message) && (
+                      <div className="mb-4 p-4 bg-blue-50 rounded-md border border-blue-200">
                         <div className="mb-2">
                           <p className="text-base text-blue-600 font-bold">
-                            Javob beruvchi ismi:
+                            Javob berilgan vaqt:
                           </p>
                           <p className="text-base font-medium text-gray-800">
-                            {item.operator_name}
+                            {formatDate(item.updated_at)}
                           </p>
                         </div>
-                      )}
-                      {item.operator_message && (
-                        <div>
-                          <p className="text-base text-blue-600 font-bold">
-                            Javob beruvchi javobi:
-                          </p>
-                          <p className="text-base text-gray-800">
-                            {item.operator_message}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        {item.operator_name && (
+                          <div className="mb-2">
+                            <p className="text-base text-blue-600 font-bold">
+                              Javob beruvchi ismi:
+                            </p>
+                            <p className="text-base font-medium text-gray-800">
+                              {item.operator_name}
+                            </p>
+                          </div>
+                        )}
+                        {item.operator_message && (
+                          <div>
+                            <p className="text-base text-blue-600 font-bold">
+                              Javob beruvchi javobi:
+                            </p>
+                            <p className="text-base text-gray-800">
+                              {item.operator_message}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                   {isReplying === item.id ? (
                     <div className="flex flex-col gap-2 mt-2">
                       <TextareaAutosize
