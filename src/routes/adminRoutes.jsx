@@ -1,5 +1,6 @@
 import PageLoader from "@/components/loader/PageLoader";
 import AppealsLayout from "@/pages/appeals";
+import Appeals from "@/pages/appeals/Appeals";
 import CompletedAppeals from "@/pages/appeals/completedAppeals/CompletedAppeals";
 import NewAppeals from "@/pages/appeals/newAppeals/NewAppeals";
 import ProgressAppeals from "@/pages/appeals/progressAppeals/ProgressAppeals";
@@ -72,6 +73,14 @@ const adminRoutes = [
     element: <AppealsLayout />,
     allowRole: ["ADMIN"],
     children: [
+      {
+        path: "/appeals",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <Appeals />
+          </Suspense>
+        ),
+      },
       {
         path: "new",
         element: (

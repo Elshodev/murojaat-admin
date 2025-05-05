@@ -52,14 +52,13 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
         required={false}
         type="search"
       />
-      <div></div>
       {/* <MaskedPhoneInput
         value={filterData?.phone ?? ""}
         onChange={handleChange}
         name={"phone"}
         className="bg-white !border-main-blue"
         required={false}
-      /> */}
+        /> */}
       <SearchableSelect
         placeholder="Viloyat tanlang"
         endpoint="/regions"
@@ -73,6 +72,7 @@ const UserFilter = ({ searchParams, currentPage, setSearchParams }) => {
           }));
         }}
       />
+      <div></div>
       <div></div>
       <UniversalBtn className="self-end justify-center" type="submit">
         Qidirish

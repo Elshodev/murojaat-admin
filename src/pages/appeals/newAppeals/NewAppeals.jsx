@@ -45,23 +45,18 @@ function NewAppeals() {
   const [isRedirecting, setIsRedirecting] = useState(null);
   const [replyText, setReplyText] = useState("");
 
-  const handleReply = (appealId) => {
+  const handleCompleteAppeal = (appealId, status) => {
     setLoading(true);
-    request("/operator/application-send-message", "POST", {
-      ticket_id: appealId,
+    request(`/operator/application-send-message`, "POST", {
       message: replyText,
+      ticket_id: appealId,
+      status: status, // "POSITIVE" yoki "NEGATIVE"
     })
       .then(() => {
-        showToast.success("Arizaga muvaffaqiyatli javob yo'llandi!");
+        showToast.success("Ariza yakunlandi!");
         queryClient.invalidateQueries([
           `/operator/applications?status=NEW&page=${currentPage}`,
         ]);
-        setFormData({
-          region_id: null,
-          department_id: null,
-          operator_id: null,
-        });
-        setIsReplying(null);
         setReplyText("");
       })
       .catch((error) => {
@@ -158,10 +153,22 @@ function NewAppeals() {
                       />
                       <div className="flex gap-2">
                         <UniversalBtn
-                          className="text-sm"
-                          onClick={() => handleReply(item.id)}
+                          className="!min-h-[30px] text-sm bg-green-600 hover:bg-green-700 text-white"
+                          loading={loading}
+                          onClick={() =>
+                            handleCompleteAppeal(item.id, "POSITIVE")
+                          }
                         >
-                          Yuborish
+                          Yakunlash (Ijobiy)
+                        </UniversalBtn>
+                        <UniversalBtn
+                          className="!min-h-[30px] text-sm bg-red-500 hover:bg-red-600 text-white"
+                          loading={loading}
+                          onClick={() =>
+                            handleCompleteAppeal(item.id, "NEGATIVE")
+                          }
+                        >
+                          Yakunlash (Salbiy)
                         </UniversalBtn>
                         <UniversalBtn
                           onClick={() => {

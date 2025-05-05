@@ -3,8 +3,8 @@ export const usersGridHeaderConfig = {
   headers: [
     { label: "№", type: "cell" },
     { label: "F.I.O", type: "cell" },
-    { label: "Telefon raqami", type: "cell" },
     { label: "Viloyat", type: "cell" },
+    { label: "Telefon raqami", type: "cell" },
     { label: "Ro'yhatdan o'tgan sanasi", type: "cell" },
     {
       label: "Arizalar",

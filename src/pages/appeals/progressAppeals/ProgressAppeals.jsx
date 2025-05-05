@@ -102,25 +102,6 @@ function NewAppeals() {
         setLoading(false);
       });
   };
-  const handleCompleteAppeal = (appealId, status) => {
-    setLoading(true);
-    request(`/operator/application-close/${appealId}`, "PUT", {
-      type: status, // "POSITIVE" yoki "NEGATIVE"
-    })
-      .then(() => {
-        showToast.success("Ariza yakunlandi!");
-        queryClient.invalidateQueries([
-          `/operator/applications?status=INPROGRESS&page=${currentPage}`,
-        ]);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showToast.error(error?.response?.data?.message || "Xatolik yuz berdi");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
@@ -303,24 +284,6 @@ function NewAppeals() {
                         onClick={() => setIsRedirecting(item.id)}
                       >
                         Qayta yo‘naltirish
-                      </UniversalBtn>
-                      <UniversalBtn
-                        className="!min-h-[30px] text-sm bg-green-600 hover:bg-green-700 text-white"
-                        loading={loading}
-                        onClick={() =>
-                          handleCompleteAppeal(item.id, "POSITIVE")
-                        }
-                      >
-                        Yakunlash (Ijobiy)
-                      </UniversalBtn>
-                      <UniversalBtn
-                        className="!min-h-[30px] text-sm bg-red-500 hover:bg-red-600 text-white"
-                        loading={loading}
-                        onClick={() =>
-                          handleCompleteAppeal(item.id, "NEGATIVE")
-                        }
-                      >
-                        Yakunlash (Salbiy)
                       </UniversalBtn>
                     </div>
                   )}
