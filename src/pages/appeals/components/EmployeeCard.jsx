@@ -19,7 +19,9 @@ function EmployeeCard({ item }) {
         <div className="mb-4 p-4 bg-blue-50 rounded-md border border-blue-200">
           <div className="mb-2">
             <p className="text-base text-blue-600 font-bold">
-              Javob berilgan vaqt:
+              {item.status == "INPROGRESS"
+                ? "Jarayonga olingan vaqt"
+                : "Javob berilgan vaqt:"}
             </p>
             <p className="text-base font-medium text-gray-800">
               {formatDate(item.updated_at)}
