@@ -1,36 +1,106 @@
-import PageLoader from "@/components/loader/PageLoader";
+import { useEffect, useState } from "react";
+import CustomInput from "@/components/formElements/CustomInput";
 import { useRequest } from "@/hooks/useRequest";
-import { useNavigate } from "react-router-dom";
+import PageLoader from "@/components/loader/PageLoader";
+import { formatDate } from "@/utils/dateFormatter";
+import { useUserStore } from "@/store/userStore";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber ";
+import ChatPage from "./ChatPage";
+import { Link, useSearchParams } from "react-router-dom";
+import UserImg from "./components/UserImg";
+import UniversalBtn from "@/components/buttons/UniversalBtn";
 
-export default function EmployeeAppeals() {
-  const navigate = useNavigate();
+export default function ChatApp() {
+  const { user } = useUserStore();
+  const [searchParams] = useSearchParams();
+  const currentUserId = searchParams.get("userId");
 
-  const { data, isLoading, error } = useRequest(
-    "/operator/applications?status=INPROGRESS"
-  );
+  const [searchValue, setSearchValue] = useState("");
+  const [queryUrl, setQueryUrl] = useState("/operator/applications");
+
+  const { data: users, isLoading, error } = useRequest(queryUrl);
+
+  const [activeUser, setActiveUser] = useState(null);
+
+  useEffect(() => {
+    if (users?.data && currentUserId) {
+      const found = users.data.find((item) => item.id == currentUserId);
+      if (found) {
+        setActiveUser(found);
+      }
+    }
+  }, [users, currentUserId]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      setQueryUrl(`/operator/applications?user_name=${searchValue.trim()}`);
+    } else {
+      setQueryUrl("/operator/applications");
+    }
+  };
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
 
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4">
-        Xodimga biriktirilgan arizalar
-      </h2>
-      <ul className="space-y-2">
-        {data?.data?.map((item) => (
-          <li
-            key={item.id}
-            onClick={() => navigate(`/employee/${item.id}`)}
-            className="cursor-pointer border p-3 rounded hover:bg-gray-100 transition"
-          >
-            <p>
-              <strong>{item.user_name}:</strong> {item.message}
-            </p>
-            <p className="text-sm text-gray-500">Status: {item.status}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="h-screen flex font-sans">
+      {/* Sidebar */}
+      <aside className="min-w-1/5 flex flex-col border-r p-4 bg-gray-100">
+        <div className="flex flex-col gap-1 mb-3">
+          <h2 className="text-base font-semibold">{user.full_name}</h2>
+          <h2 className="text-base font-semibold">
+            {formatPhoneNumber(user.phone_number)}
+          </h2>
+        </div>
+
+        {/* Search input with button */}
+        <form onSubmit={handleSearch} className="flex items-center gap-2 mb-4">
+          <CustomInput
+            type="search"
+            required={false}
+            divClass="grow-0 w-full"
+            placeholder="Search Here..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <UniversalBtn type="submit">Qidirish</UniversalBtn>
+        </form>
+
+        <ul className="space-y-2 overflow-auto">
+          {users?.data?.map((userData) => (
+            <Link
+              to={`/employee?userId=${userData.id}`}
+              key={userData.id}
+              className={`flex items-center gap-2 p-2 rounded cursor-pointer ${
+                userData.id == currentUserId
+                  ? "bg-blue-200"
+                  : "hover:bg-gray-200"
+              }`}
+              onClick={() => setActiveUser(userData)}
+            >
+              <UserImg userData={userData} currentUserId={currentUserId} />
+              <div className="">
+                <div className="font-medium text-sm">{userData.user_name}</div>
+                <div className="text-xs text-gray-500">
+                  {formatDate(userData.updated_at)}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </ul>
+      </aside>
+
+      {/* Main Chat Area */}
+      <main className="flex-1 flex flex-col">
+        {currentUserId ? (
+          <ChatPage currentUserId={currentUserId} activeUser={activeUser} />
+        ) : (
+          <div className="text-gray-500 text-lg font-medium h-screen flex items-center justify-center">
+            Suhbatni boshlash uchun foydalanuvchini tanlang!
+          </div>
+        )}
+      </main>
     </div>
   );
 }

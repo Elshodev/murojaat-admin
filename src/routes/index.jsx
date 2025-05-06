@@ -8,7 +8,6 @@ import NoConnection from "@/components/noConnection/NoConnection.jsx";
 import PageLoader from "@/components/loader/PageLoader.jsx";
 import { useUserStore } from "@/store/userStore.js";
 import Employee from "../pages/employee";
-import ChatPage from "@/pages/employee/employeSinglePage/EmployeSinglePage.jsx";
 function AppRoutes() {
   const { user } = useUserStore();
   const [isLoading, setIsLoading] = useState(true);
@@ -45,7 +44,6 @@ function AppRoutes() {
             ))}
         </Route>
         <Route path="/employee" element={<Employee />} />
-        <Route path="/employee/:id" element={<ChatPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
