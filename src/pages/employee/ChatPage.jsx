@@ -70,7 +70,7 @@ function ChatPage({ activeUser, currentUserId }) {
                   key={msg.id}
                   className={`max-w-[50%] p-3 flex flex-col gap-3 rounded-[10px] rounded-bl-[0] ${
                     !msg.isUser
-                      ? "ml-auto bg-blue-100 text-right"
+                      ? "ml-auto bg-green-100 text-right"
                       : "bg-[#DCE8FF]"
                   }`}
                 >
