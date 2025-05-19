@@ -7,7 +7,6 @@ import { useUserStore } from "@/store/userStore";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber ";
 import ChatPage from "./ChatPage";
 import { Link, useSearchParams } from "react-router-dom";
-import UserImg from "./components/UserImg";
 import UniversalBtn from "@/components/buttons/UniversalBtn";
 import { MdExitToApp } from "react-icons/md";
 
@@ -43,7 +42,6 @@ export default function ChatApp() {
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
-  console.log(users);
 
   return (
     <div className="h-screen flex font-sans">

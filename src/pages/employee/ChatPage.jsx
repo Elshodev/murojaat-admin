@@ -76,6 +76,16 @@ function ChatPage({ activeUser, currentUserId }) {
                 >
                   {msg.content_type == "IMAGE" ? (
                     <img className="rounded" src={msg.message} alt="" />
+                  ) : msg.content_type == "VOICE" ? (
+                    <div className="bg-white rounded-xl shadow p-4 border border-gray-200 w-full max-w-md">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">
+                        Audio xabar:
+                      </p>
+                      <audio controls className="w-full rounded-lg">
+                        <source src={msg.message} type="audio/ogg" />
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
                   ) : (
                     <p className="text-black text-base">{msg.message}</p>
                   )}
