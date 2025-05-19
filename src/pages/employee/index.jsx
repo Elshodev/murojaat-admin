@@ -9,6 +9,7 @@ import ChatPage from "./ChatPage";
 import { Link, useSearchParams } from "react-router-dom";
 import UserImg from "./components/UserImg";
 import UniversalBtn from "@/components/buttons/UniversalBtn";
+import { MdExitToApp } from "react-icons/md";
 
 export default function ChatApp() {
   const { user } = useUserStore();
@@ -42,6 +43,7 @@ export default function ChatApp() {
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
+  console.log(users);
 
   return (
     <div className="h-screen flex font-sans">
@@ -72,23 +74,37 @@ export default function ChatApp() {
             <Link
               to={`/employee?userId=${userData.id}`}
               key={userData.id}
-              className={`flex items-center gap-2 p-2 rounded cursor-pointer ${
+              className={`flex items-center gap-2 p-2 rounded border cursor-pointer ${
                 userData.id == currentUserId
-                  ? "bg-blue-200"
-                  : "hover:bg-gray-200"
+                  ? "border-[green]"
+                  : "border-transparent"
+              } ${
+                userData.status == "INPROGRESS" ? "bg-red-300" : "bg-green-200"
               }`}
               onClick={() => setActiveUser(userData)}
             >
-              <UserImg userData={userData} currentUserId={currentUserId} />
+              {/* <UserImg userData={userData} currentUserId={currentUserId} /> */}
               <div className="">
                 <div className="font-medium text-sm">{userData.user_name}</div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-black-500">
                   {formatDate(userData.updated_at)}
                 </div>
               </div>
             </Link>
           ))}
         </ul>
+        <hr className="my-4 mt-auto border-main-blue" />
+        <UniversalBtn
+          iconPosition="right"
+          className="justify-center"
+          onClick={() => {
+            localStorage.removeItem("accessToken");
+            location.reload();
+          }}
+          icon={MdExitToApp}
+        >
+          Выйти
+        </UniversalBtn>
       </aside>
 
       {/* Main Chat Area */}
