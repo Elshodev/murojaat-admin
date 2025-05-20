@@ -82,10 +82,7 @@ function ChatPage({ activeUser, currentUserId }) {
                         Audio xabar:
                       </p>
                       <audio controls className="w-full rounded-lg">
-                        <source
-                          src={`https://tgsafe.ecohimoya.uz${msg.message}`}
-                          type="audio/ogg"
-                        />
+                        <source src={`${msg.message}`} type="audio/ogg" />
                         Your browser does not support the audio element.
                       </audio>
                     </div>
