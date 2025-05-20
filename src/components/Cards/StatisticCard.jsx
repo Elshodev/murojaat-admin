@@ -7,7 +7,6 @@ const iconMapping = {
 
 function StatisticCard({ item }) {
   const IconComponent = iconMapping["news"];
-  console.log(item);
 
   return (
     <div className="group relative p-[20px_30px] shadow-[0_1px_3.5px_0_rgba(0,0,0,.25)]">
