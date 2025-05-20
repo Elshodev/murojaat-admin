@@ -1,20 +1,39 @@
-import UniversalBtn from "@/components/buttons/UniversalBtn";
-import CustomInput from "@/components/formElements/CustomInput";
 import PageLoader from "@/components/loader/PageLoader";
 import { useRequest } from "@/hooks/useRequest";
-import { Send } from "lucide-react";
 import UserImg from "./components/UserImg";
-import { formatDate } from "@/utils/dateFormatter";
-import { useState } from "react";
 import request from "@/services/fetch.service";
 import { showToast } from "@/utils/toastHelper";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRef, useState } from "react"; // useRef ni ham import qiling
+import MessageCard from "./components/MessageCard";
+import MessageFooter from "./components/MessageFooter";
 
 function ChatPage({ activeUser, currentUserId }) {
-  const [replyText, setReplyText] = useState("");
-  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const fileInputRef = useRef(null); // fayl tanlash uchun ref
+  const [formValues, setFormValues] = useState({
+    message: "",
+    status: "",
+  });
+
+  const createFormData = (values) => {
+    const formData = new FormData();
+    formData.append("ticket_id", currentUserId); // tashqi manba
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (key === "files" && Array.isArray(value) && value.length > 0) {
+        value.forEach((file) => {
+          formData.append("files", file); // ✅ HAR BIR fayl alohida append bo'ladi
+        });
+      } else if (key !== "files") {
+        formData.append(key, value);
+      }
+    });
+
+    return formData;
+  };
+
   const {
     data: user,
     isLoading,
@@ -23,22 +42,25 @@ function ChatPage({ activeUser, currentUserId }) {
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
   const handleCompleteAppeal = () => {
-    if (!replyText || !status) {
-      showToast.error("Iltimos, xabar va statusni to'ldiring");
+    if (!formValues.message) {
+      showToast.error("Iltimos, xabar yozing");
+      return;
+    }
+
+    if (!formValues.status) {
+      showToast.error("Iltimos, statusni tanlang");
       return;
     }
 
     setLoading(true);
-    request(`/operator/application-send-message`, "POST", {
-      message: replyText,
-      ticket_id: +currentUserId,
-      status,
-    })
+
+    const formData = createFormData(formValues);
+    request(`/operator/application-send-message`, "POST", formData)
       .then(() => {
-        showToast.success("Ariza yakunlandi!");
-        queryClient.invalidateQueries([`//operator/applications`]);
-        setReplyText("");
-        setStatus("");
+        showToast.success("Xabar va fayllar yuborildi!");
+        queryClient.invalidateQueries([`/operator/applications`]);
+        setFormValues({ message: "", status: "" });
+        if (fileInputRef.current) fileInputRef.current.value = null;
       })
       .catch((error) => {
         showToast.error(error?.response?.data?.message || "Xatolik yuz berdi");
@@ -65,62 +87,19 @@ function ChatPage({ activeUser, currentUserId }) {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white">
             {user.map((msg) => {
-              return (
-                <div
-                  key={msg.id}
-                  className={`max-w-[50%] p-3 flex flex-col gap-3 rounded-[10px] rounded-bl-[0] ${
-                    !msg.isUser
-                      ? "ml-auto bg-green-100 text-right"
-                      : "bg-[#DCE8FF]"
-                  }`}
-                >
-                  {msg.content_type == "IMAGE" ? (
-                    <img className="rounded" src={msg.message} alt="" />
-                  ) : msg.content_type == "VOICE" ? (
-                    <div className="bg-white rounded-xl shadow p-4 border border-gray-200 w-full max-w-md">
-                      <p className="text-sm font-semibold text-gray-700 mb-2">
-                        Audio xabar:
-                      </p>
-                      <audio controls className="w-full rounded-lg">
-                        <source src={`${msg.message}`} type="audio/ogg" />
-                        Your browser does not support the audio element.
-                      </audio>
-                    </div>
-                  ) : (
-                    <p className="text-black text-base">{msg.message}</p>
-                  )}
-                  <span className="text-black ml-auto text-sm">
-                    {formatDate(msg.created_at)}
-                  </span>
-                </div>
-              );
+              return <MessageCard key={msg.id} msg={msg} />;
             })}
           </div>
         </>
       )}
       {/* Footer */}
-      <footer className="p-4 mt-auto border-t flex flex-col md:flex-row gap-2">
-        <div className="flex-1 flex gap-2">
-          <CustomInput
-            placeholder="Xabar yozing..."
-            value={replyText}
-            onChange={(e) => setReplyText(e.target.value)}
-            className="flex-1"
-          />
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="border rounded px-2 py-1 text-sm text-gray-700"
-          >
-            <option value="">Status tanlang</option>
-            <option value="POSITIVE">✅ Positive</option>
-            <option value="NEGATIVE">❌ Negative</option>
-          </select>
-        </div>
-        <UniversalBtn onClick={handleCompleteAppeal} loading={loading}>
-          <Send size={18} />
-        </UniversalBtn>
-      </footer>
+      <MessageFooter
+        handleCompleteAppeal={handleCompleteAppeal}
+        fileInputRef={fileInputRef}
+        loading={loading}
+        setFormValues={setFormValues}
+        formValues={formValues}
+      />
     </>
   );
 }

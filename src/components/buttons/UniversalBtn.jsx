@@ -18,10 +18,10 @@ function UniversalBtn({
       className={`bg-main-blue hover:bg-blue-500 transition-colors duration-200 cursor-pointer rounded min-h-[38px] px-[24px] flex items-center gap-[5px] text-white font-medium text-base !leading-[1]
        ${className}`}
     >
-      {loading && <Loader2 className="animate-spin w-4 h-4" />}
       {!loading && Icon && iconPosition === "left" && <Icon className="w-5" />}
       {children}
       {!loading && Icon && iconPosition === "right" && <Icon className="w-5" />}
+      {loading && <Loader2 className="animate-spin w-4 h-4" />}
     </button>
   );
 }
