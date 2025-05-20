@@ -1,4 +1,5 @@
-import { Database } from "lucide-react";
+import { Database, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const iconMapping = {
   news: Database,
@@ -6,6 +7,7 @@ const iconMapping = {
 
 function StatisticCard({ item }) {
   const IconComponent = iconMapping["news"];
+  console.log(item);
 
   return (
     <div className="group relative p-[20px_30px] shadow-[0_1px_3.5px_0_rgba(0,0,0,.25)]">
@@ -18,6 +20,12 @@ function StatisticCard({ item }) {
         </div>
         <div className="mt-[30px] flex justify-between">
           <h1 className="text-[36px] font-medium">{item.value}</h1>
+          <Link
+            to={item.link}
+            className="flex items-center text-[18px] gap-2 hover:underline"
+          >
+            Batafsil <ExternalLink className="w-5" />
+          </Link>
         </div>
       </div>
     </div>

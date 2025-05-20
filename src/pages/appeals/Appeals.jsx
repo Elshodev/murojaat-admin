@@ -25,6 +25,7 @@ function Appeals() {
       userId ? `user_id=${userId}` : ""
     }`
   );
+  console.log(appeals);
 
   if (isLoading) return <PageLoader />;
   if (error) return <p className="text-red-500">{error.message}</p>;
@@ -32,11 +33,19 @@ function Appeals() {
   return (
     <>
       <PageHeader
-        title={`${appeals?.data[0].user_name}ning arizalari`}
+        title={
+          userId
+            ? `${appeals?.data[0].user_name}ning arizalari`
+            : "Barcha arizalar"
+        }
         breadcrumbs={[
           { label: "Admin", link: "/" },
           { label: "Murojaatchilar", link: -1 },
-          { label: `${appeals?.data[0].user_name}ning arizalari` },
+          {
+            label: userId
+              ? `${appeals?.data[0].user_name}ning arizalari`
+              : "Barcha arizalar",
+          },
         ]}
       />
       <div className="px-[20px] grow h-full overflow-y-auto py-5">
