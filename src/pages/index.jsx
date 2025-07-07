@@ -9,3 +9,4 @@ const Regions = lazy(() => import("./regions"));
 const Login = lazy(() => import("./login"));
 
 export { Dashboard, Users, Operators, Respondents, Categories, Regions, Login };
+// last version
