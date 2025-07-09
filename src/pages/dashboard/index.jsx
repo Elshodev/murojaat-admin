@@ -2,6 +2,7 @@ import StatisticCard from "../../components/Cards/StatisticCard.jsx";
 import { useRequest } from "../../hooks/useRequest.js";
 import PageLoader from "../../components/loader/PageLoader.jsx";
 import PageHeader from "@/components/header/PageHeader.jsx";
+import DateFilterDownload from "@/components/DateFilterDownload/DateFilterDownload.jsx";
 
 function Dashboard() {
   const {
@@ -28,6 +29,7 @@ function Dashboard() {
               <StatisticCard key={item.title} item={item} />
             ))}
           </div>
+          <DateFilterDownload />
         </div>
       </div>
     </>
